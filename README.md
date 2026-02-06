@@ -1,57 +1,116 @@
-___
-# DELETE THIS INSTRUCTIONS AND ADD AN INTRODUCTION ABOUT YOUR PROJECT
-___
+# ChronoCampus
 
-# eYY-co2060-project-template
+Smart Time-Aware University Infrastructure Management System
 
-This is a sample repository you can use for your Software Systems Design Project. Once you followed these instructions, remove the text and add a brief introduction to here.
+## Overview
+ChronoCampus is a web-based system designed for university environments to manage academic schedules, facility reservations, and staff locations. The system provides real-time schedule visibility, room and lab availability, and automated notifications for schedule changes.
 
-### Enable GitHub Pages
+## Problem Statement
+Universities face several operational issues:
+- Lack of real-time visibility of daily schedules
+- Difficulty identifying free rooms and laboratories
+- Manual and error-prone reservation processes
+- No centralized system for staff office locations
+- Delayed communication when schedules change
 
-You can put the things to be shown in GitHub pages into the _docs/_ folder. Both html and md file formats are supported. You need to go to settings and enable GitHub pages and select _main_ branch and _docs_ folder from the dropdowns, as shown in the below image.
+## Proposed Solution
+ChronoCampus centralizes schedule, reservation, and location data into a single web platform. The system coordinates time, space, and users using a modular backend architecture, ensuring consistency and real-time updates.
 
-![image](https://user-images.githubusercontent.com/11540782/98789936-028d3600-2429-11eb-84be-aaba665fdc75.png)
+## Core Features
+- Live daily schedules for lectures, labs, tutorials, and exams
+- Room and lab availability search
+- Facility reservation management
+- Staff directory with office and cabin locations
+- Notifications for schedule changes
 
-### Special Configurations
+## Technology Stack
+- Backend: Python Flask
+- Frontend: HTML, CSS, JavaScript
+- Database: PostgreSQL
+- Version Control: Git, GitHub
 
-These projects will be automatically added into [https://projects.ce.pdn.ac.lk](). If you like to show more details about your project on this site, you can fill the parameters in the file, _/docs/index.json_
+## Branching Strategy
+This repository follows a structured Git workflow.
 
-```
-{
-  "title": "This is the title of the project",
-  "team": [
-    {
-      "name": "Team Member Name 1",
-      "email": "email@eng.pdn.ac.lk",
-      "eNumber": "E/yy/xxx"
-    },
-    {
-      "name": "Team Member Name 2",
-      "email": "email@eng.pdn.ac.lk",
-      "eNumber": "E/yy/xxx"
-    },
-    {
-      "name": "Team Member Name 3",
-      "email": "email@eng.pdn.ac.lk",
-      "eNumber": "E/yy/xxx"
-    }
-  ],
-  "supervisors": [
-    {
-      "name": "Dr. Supervisor 1",
-      "email": "email@eng.pdn.ac.lk"
-    },
-    {
-      "name": "Supervisor 2",
-      "email": "email@eng.pdn.ac.lk"
-    }
-  ],
-  "tags": ["Web", "Software Systems", "CO2060"]
-}
-```
+- main  
+  Stable branch containing demo-ready and evaluated code
 
-Once you filled this _index.json_ file, please verify the syntax is correct. (You can use [this](https://jsonlint.com/) tool).
+- dev  
+  Development integration branch where features are merged and tested
 
-### Page Theme
+- feature branches  
+  Used for individual module development and merged into dev via pull requests
 
-A custom theme integrated with this GitHub Page, which is based on [github.com/cepdnaclk/eYY-project-theme](https://github.com/cepdnaclk/eYY-project-theme). If you like to remove this default theme, you can remove the file, _docs/\_config.yml_ and use HTML based website.
+## Code Division and Team Responsibilities
+Each member is responsible for an independent system module. All members write code.
+
+### Member 1: User and Authentication Module
+- User model and role management
+- Login and logout
+- User profile handling
+
+Backend files:
+- backend/models/user.py
+- backend/routes/auth.py
+
+Branch:
+- feature-auth
+
+### Member 2: Schedule Management Module
+- Lecture, lab, and exam schedules
+- Daily timetable view
+- Real-time schedule updates
+
+Backend files:
+- backend/models/schedule.py
+- backend/routes/schedule.py
+
+Branch:
+- feature-schedule
+
+### Member 3: Facility and Reservation Module
+- Room and lab management
+- Availability search
+- Booking and conflict handling
+
+Backend files:
+- backend/models/room.py
+- backend/routes/reservation.py
+
+Branch:
+- feature-reservation
+
+### Member 4: Notification and Staff Module
+- Staff directory
+- Office and cabin location management
+- Notifications for schedule changes
+
+Backend files:
+- backend/models/staff.py
+- backend/routes/notification.py
+
+Branch:
+- feature-notifications
+
+## Frontend Split
+- Build their own frontend page for their backend
+- Connects to their API
+
+## Development Workflow
+- Each member works on a separate feature branch
+- Commits are small and frequent
+- Pull requests are created to merge into dev
+- dev is merged into main only after testing
+
+## Project Timeline
+- Semester 3: Planning, design, and working prototype
+- Semester 4: Advanced orchestration, optimization, and final system delivery
+
+## Team
+- Member 1: User and authentication module
+- Member 2: Schedule management module
+- Member 3: Facility and reservation module
+- Member 4: Notification and staff module
+
+## How to Run
+Execution instructions will be added after backend and frontend integration
