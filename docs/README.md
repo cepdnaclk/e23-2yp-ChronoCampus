@@ -19,14 +19,16 @@ If your followed all the given instructions correctly, your repository will be a
 
 A HTML template integrated with the given GitHub repository templates, based on github.com/cepdnaclk/eYY-project-theme . If you like to remove this default theme and make your own web page, you can remove the file, docs/_config.yml and create the site using HTML. -->
 
-# Project Title
+# ChronoCampus(University Schedule and Facility Management System.)
 
 ---
 
 ## Team
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
+-  E/23/392, Thanush V., [email](e23392@eng.pdn.ac.lk)
+-  E/23/384, S.Simasa, [email](e23384@eng.pdn.ac.lk)
+-  E/23/256, Paveenan S., [email](e23256@eng.pdn.ac.lk)
+-  E/23/352, N.A.Sara, [email](e23352@eng.pdn.ac.lk)
+
 
 <!-- Image (photo/drawing of the final hardware) should be here -->
 
@@ -44,29 +46,29 @@ A HTML template integrated with the given GitHub repository templates, based on 
 
 ## Introduction
 
-Description of the real world problem and solution, impact
+This project focuses on developing a centralized Smart University Schedule and Facility Management System. Universities face challenges such as timetable conflicts, delayed schedule updates, inefficient room usage, and lack of visibility of staff locations. The aim of this system is to provide students, academic staff, and administrators with real-time access to academic schedules, facility availability, and staff location information through a single platform.
 
 
 ## Solution Architecture
 
-High level diagram + description
+The system follows a client-server architecture. A web-based frontend interacts with a RESTful backend through secure APIs. The backend handles authentication, schedule management, facility reservations, notifications, and data storage. Modular components ensure scalability and ease of maintenance. Git-based version control supports collaborative development using feature branches and pull requests.
 
 ## Software Designs
 
-Detailed designs with many sub-sections
+The software design is based on a layered architecture. The backend includes separate layers for models, routes, services, and controllers. Database entities include users, schedules, rooms, reservations, and staff locations. The frontend presents dashboards, daily timetables, search interfaces, and notification views. ER diagrams, sequence diagrams, and system diagrams support the design.
 
 ## Testing
 
-Testing done on software : detailed + summarized results
+Testing includes unit testing of backend modules, API endpoint testing, and basic integration testing. Manual testing validates schedule updates, notifications, and room search functionality. Testing ensures reliability, correctness, and error-free execution of the Minimum Viable Product.
 
 ## Conclusion
 
-What was achieved, future developments, commercialization plans
+The system improves academic coordination, transparency, and resource utilization within the university. It provides a scalable foundation that can be extended with analytics, mobile support, and advanced orchestration features in future iterations.
 
 ## Links
 
-- [Project Repository](https://github.com/cepdnaclk/{{ page.repository-name }}){:target="_blank"}
-- [Project Page](https://cepdnaclk.github.io/{{ page.repository-name}}){:target="_blank"}
+- [Project Repository](https://github.com/cepdnaclk/{{ e23-2yp-ChronoCampus }}){:target="_blank"}
+- [Project Page](https://cepdnaclk.github.io/{{ e23-2yp-ChronoCampus}}){:target="_blank"}
 - [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
 - [University of Peradeniya](https://eng.pdn.ac.lk/)
 
