@@ -21,17 +21,7 @@ This is the **core security layer** of the ChronoCampus platform.
 
 ##  Project Structure
 
-Sara_UserAuthenticationModule/
-│
-├── code/
-│ ├── backend/ # Flask backend (authentication logic, routes, models)
-│ └── frontend/ # HTML/CSS/JS pages for login, register, profile
-│
-└── docs/
-├── architecture.md # High-level MVC architecture overview
-├── api_design.md # REST API structure for authentication
-├── setup_guide.md # Local development setup instructions
-└── auth_flow_diagram.md # Authentication workflow explanation
+<img width="597" height="292" alt="image" src="https://github.com/user-attachments/assets/3006f286-9ac2-4c39-a076-eddfe9c17528" />
 
 
 ##  Tech Stack
