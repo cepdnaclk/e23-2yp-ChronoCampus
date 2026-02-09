@@ -39,7 +39,7 @@ backend/
 │ - Availability tracking
 │
 └── routes/
-└── reservation.py
+  └── reservation.py
 - Reservation API routes
 - Booking validation
 - Conflict detection
