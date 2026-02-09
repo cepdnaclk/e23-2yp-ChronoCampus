@@ -1,116 +1,156 @@
-# ChronoCampus
+# ChronoCampus — Facility & Reservation Module
+### Smart Time-Aware University Infrastructure System
 
-Smart Time-Aware University Infrastructure Management System
+This branch contains the development work for **Member 3**, responsible for implementing the **Facility and Reservation Module** of the ChronoCampus system.
 
-## Overview
-ChronoCampus is a web-based system designed for university environments to manage academic schedules, facility reservations, and staff locations. The system provides real-time schedule visibility, room and lab availability, and automated notifications for schedule changes.
+This module manages university infrastructure such as rooms and laboratories and handles the complete reservation workflow, including availability searching, booking management, and conflict detection.
 
-## Problem Statement
-Universities face several operational issues:
-- Lack of real-time visibility of daily schedules
-- Difficulty identifying free rooms and laboratories
-- Manual and error-prone reservation processes
-- No centralized system for staff office locations
-- Delayed communication when schedules change
+---
 
-## Proposed Solution
-ChronoCampus centralizes schedule, reservation, and location data into a single web platform. The system coordinates time, space, and users using a modular backend architecture, ensuring consistency and real-time updates.
+## Module Goal
+The main objective of this module is to provide a structured and centralized system for managing facilities and reservations within the ChronoCampus platform.
 
-## Core Features
-- Live daily schedules for lectures, labs, tutorials, and exams
-- Room and lab availability search
-- Facility reservation management
-- Staff directory with office and cabin locations
-- Notifications for schedule changes
+It enables users to search available spaces, create bookings, and ensures scheduling conflicts are prevented through backend validation logic.
+
+---
+
+## Responsibilities (Member 3 Role)
+
+This module handles:
+
+- Room and laboratory management
+- Resource availability searching
+- Reservation creation and tracking
+- Conflict detection and prevention
+- Booking validation logic
+- Reservation backend APIs
+- Integration with user authentication module
+
+---
+
+## Backend File Structure
+
+backend/
+│
+├── models/
+│ └── room.py
+│
+└── routes/
+  └── reservation.py
+
+
+### File Descriptions
+
+**room.py**
+- Defines room and facility data structures
+- Stores infrastructure details
+- Supports availability tracking
+
+**reservation.py**
+- Handles reservation endpoints
+- Processes booking requests
+- Validates time conflicts
+- Manages booking workflows
+
+---
+
+## Branch Information
+
+Branch Name: 
+feature-reservation
+
+
+Purpose:
+Development of the Facility and Reservation Module.
+
+---
 
 ## Technology Stack
-- Backend: Python Flask
-- Frontend: HTML, CSS, JavaScript
-- Database: PostgreSQL
-- Version Control: Git, GitHub
 
-## Branching Strategy
-This repository follows a structured Git workflow.
+### Backend
+- Python
+- Flask Framework
+- REST API Design
+- MVC / Layered Architecture
 
-- main  
-  Stable branch containing demo-ready and evaluated code
+### Frontend (Integration)
+- HTML
+- CSS
+- JavaScript
 
-- dev  
-  Development integration branch where features are merged and tested
+### Database
+- PostgreSQL (planned integration)
 
-- feature branches  
-  Used for individual module development and merged into dev via pull requests
+---
 
-## Code Division and Team Responsibilities
-Each member is responsible for an independent system module. All members write code.
+## Planned Features
 
-### Member 1: User and Authentication Module
-- User model and role management
-- Login and logout
-- User profile handling
+- Facility listing and management
+- Availability search functionality
+- Reservation creation
+- Booking conflict detection
+- Reservation tracking
+- Backend validation rules
 
-Backend files:
-- backend/models/user.py
-- backend/routes/auth.py
+---
 
-Branch:
-- feature-auth
+## Architecture Approach
 
-### Member 2: Schedule Management Module
-- Lecture, lab, and exam schedules
-- Daily timetable view
-- Real-time schedule updates
+This module follows a **Layered / MVC-based architecture**:
 
-Backend files:
-- backend/models/schedule.py
-- backend/routes/schedule.py
+- **Models** → Infrastructure and facility data
+- **Routes** → Reservation API endpoints
+- **Controllers** → Booking logic and validation
+- **Database Layer** → Storage of reservations and facilities
 
-Branch:
-- feature-schedule
+---
 
-### Member 3: Facility and Reservation Module
-- Room and lab management
-- Availability search
-- Booking and conflict handling
+## System Workflow (High-Level)
 
-Backend files:
-- backend/models/room.py
-- backend/routes/reservation.py
+1. User requests facility availability
+2. System checks database records
+3. Available slots are returned
+4. User submits reservation request
+5. Backend validates conflicts
+6. Reservation stored in database
 
-Branch:
-- feature-reservation
+---
 
-### Member 4: Notification and Staff Module
-- Staff directory
-- Office and cabin location management
-- Notifications for schedule changes
+## Development Setup
 
-Backend files:
-- backend/models/staff.py
-- backend/routes/notification.py
+Detailed setup instructions are available in:
+docs/setup_guide.md
 
-Branch:
-- feature-notifications
 
-## Frontend Split
-- Build their own frontend page for their backend
-- Connects to their API
+General Development Steps:
 
-## Development Workflow
-- Each member works on a separate feature branch
-- Commits are small and frequent
-- Pull requests are created to merge into dev
-- dev is merged into main only after testing
+1. Clone the repository
+2. Navigate to the backend directory
+3. Create a virtual environment
+4. Install required dependencies
+5. Run the Flask development server
 
-## Project Timeline
-- Semester 3: Planning, design, and working prototype
-- Semester 4: Advanced orchestration, optimization, and final system delivery
+---
 
-## Team
-- Member 1: User and authentication module
-- Member 2: Schedule management module
-- Member 3: Facility and reservation module
-- Member 4: Notification and staff module
+## Integration Dependencies
 
-## How to Run
-Execution instructions will be added after backend and frontend integration
+This module depends on:
+
+- User & Authentication Module
+- Database Configuration Module
+- Frontend Booking Interface
+
+---
+
+## Future Enhancements (Beyond MVP Scope)
+
+- Advanced reservation analytics
+- Automated scheduling optimization
+- Enhanced reporting features
+- Database scaling improvements
+
+---
+
+## ✍️ Author
+**S. Simasa**
+
