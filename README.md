@@ -32,12 +32,17 @@ This module handles:
 
 ```
 backend/
-│
 ├── models/
 │ └── room.py
+│ - Room model
+│ - Facility data structure
+│ - Availability tracking
 │
 └── routes/
-  └── reservation.py
+└── reservation.py
+- Reservation API routes
+- Booking validation
+- Conflict detection
 ```
 
 ### File Descriptions
