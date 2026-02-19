@@ -57,6 +57,24 @@ def reserve_room():
     conn = get_db_connection()
     cur = conn.cursor()
 
+    # Check overlap
+    cur.execute("""
+        SELECT * FROM reservations
+        WHERE room_id = %s
+        AND date = %s
+        AND (
+            (start_time < %s AND end_time > %s)
+        )
+    """, (room_id, date, end_time, start_time))
+
+    conflict = cur.fetchone()
+
+    if conflict:
+        cur.close()
+        conn.close()
+        return {"error": "Time slot already booked"}, 400
+
+    # Insert if no conflict
     cur.execute("""
         INSERT INTO reservations (user_id, room_id, date, start_time, end_time)
         VALUES (%s, %s, %s, %s, %s)
