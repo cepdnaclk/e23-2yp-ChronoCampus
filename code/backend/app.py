@@ -86,6 +86,40 @@ def reserve_room():
 
     return {"message": "Reservation created successfully"}
 
+@app.route("/reservations", methods=["GET"])
+def get_reservations_by_date():
+    date = request.args.get("date")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT r.id, u.username, rm.room_name, r.date, r.start_time, r.end_time
+        FROM reservations r
+        JOIN users u ON r.user_id = u.id
+        JOIN rooms rm ON r.room_id = rm.id
+        WHERE r.date = %s
+        ORDER BY r.start_time
+    """, (date,))
+
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    result = []
+    for row in rows:
+        result.append({
+            "reservation_id": row[0],
+            "username": row[1],
+            "room": row[2],
+            "date": str(row[3]),
+            "start_time": str(row[4]),
+            "end_time": str(row[5])
+        })
+
+    return jsonify(result)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
