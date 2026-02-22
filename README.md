@@ -1,81 +1,116 @@
-# Member 1 — User & Authentication Module  
-## ChronoCampus: Smart Time-Aware University Infrastructure System
+# ChronoCampus
 
-This branch contains the development work for **Member 1**, responsible for building the **User and Authentication Module** of the ChronoCampus system.
+Smart Time-Aware University Infrastructure Management System
 
-The goal of this module is to provide secure user management, login sessions, and role-based access control for students, staff, and administrators.
+## Overview
+ChronoCampus is a web-based system designed for university environments to manage academic schedules, facility reservations, and staff locations. The system provides real-time schedule visibility, room and lab availability, and automated notifications for schedule changes.
 
+## Problem Statement
+Universities face several operational issues:
+- Lack of real-time visibility of daily schedules
+- Difficulty identifying free rooms and laboratories
+- Manual and error-prone reservation processes
+- No centralized system for staff office locations
+- Delayed communication when schedules change
 
-##  Responsibilities (Member 1 Role)
+## Proposed Solution
+ChronoCampus centralizes schedule, reservation, and location data into a single web platform. The system coordinates time, space, and users using a modular backend architecture, ensuring consistency and real-time updates.
 
-This module handles:
+## Core Features
+- Live daily schedules for lectures, labs, tutorials, and exams
+- Room and lab availability search
+- Facility reservation management
+- Staff directory with office and cabin locations
+- Notifications for schedule changes
 
-- User registration and profile management
-- Secure login and logout functionality
-- Session handling using Flask
-- Role-based access control (Student / Staff / Admin)
-- Authentication APIs for frontend integration
+## Technology Stack
+- Backend: Python Flask
+- Frontend: HTML, CSS, JavaScript
+- Database: PostgreSQL
+- Version Control: Git, GitHub
 
-This is the **core security layer** of the ChronoCampus platform.
+## Branching Strategy
+This repository follows a structured Git workflow.
 
+- main  
+  Stable branch containing demo-ready and evaluated code
 
-##  Project Structure
+- dev  
+  Development integration branch where features are merged and tested
 
-<img width="597" height="292" alt="image" src="https://github.com/user-attachments/assets/3006f286-9ac2-4c39-a076-eddfe9c17528" />
+- feature branches  
+  Used for individual module development and merged into dev via pull requests
 
+## Code Division and Team Responsibilities
+Each member is responsible for an independent system module. All members write code.
 
-##  Tech Stack
+### Member 1: User and Authentication Module
+- User model and role management
+- Login and logout
+- User profile handling
 
-### Backend
-- Python
-- Flask Framework
-- Session-based authentication
-- REST API design
+Backend files:
+- backend/models/user.py
+- backend/routes/auth.py
 
-### Frontend
-- HTML
-- CSS
-- JavaScript
+Branch:
+- feature-auth
 
-### Database
-- PostgreSQL (planned integration)
+### Member 2: Schedule Management Module
+- Lecture, lab, and exam schedules
+- Daily timetable view
+- Real-time schedule updates
 
+Backend files:
+- backend/models/schedule.py
+- backend/routes/schedule.py
 
-##  Authentication Features (Planned)
+Branch:
+- feature-schedule
 
-- Login / Logout system
-- Secure session management
-- Role-based authorization
-- JSON API responses for frontend
-- Protected routes
+### Member 3: Facility and Reservation Module
+- Room and lab management
+- Availability search
+- Booking and conflict handling
 
+Backend files:
+- backend/models/room.py
+- backend/routes/reservation.py
 
-##  Architecture Approach
+Branch:
+- feature-reservation
 
-This module follows a **Layered / MVC-based architecture**:
+### Member 4: Notification and Staff Module
+- Staff directory
+- Office and cabin location management
+- Notifications for schedule changes
 
-- Models → user data structure
-- Routes → authentication endpoints
-- Views → frontend login & profile pages
-- Sessions → manage logged-in users
+Backend files:
+- backend/models/staff.py
+- backend/routes/notification.py
 
+Branch:
+- feature-notifications
 
-##  How to Run (Development Setup)
+## Frontend Split
+- Build their own frontend page for their backend
+- Connects to their API
 
-Full setup steps are documented inside:
+## Development Workflow
+- Each member works on a separate feature branch
+- Commits are small and frequent
+- Pull requests are created to merge into dev
+- dev is merged into main only after testing
 
-docs/setup_guide.md
+## Project Timeline
+- Semester 3: Planning, design, and working prototype
+- Semester 4: Advanced orchestration, optimization, and final system delivery
 
-**General workflow (to be expanded later):**
+## Team
+- Member 1: User and authentication module
+- Member 2: Schedule management module
+- Member 3: Facility and reservation module
+- Member 4: Notification and staff module
 
-1. Clone repository  
-2. Navigate to backend folder  
-3. Create virtual environment  
-4. Install dependencies  
-5. Run Flask server
-
-
-##  Author — N.A.Sara
-
-User & Authentication Module Developer  
-ChronoCampus Project — CO2060
+## How to Run
+Execution instructions will be added after backend and frontend integration
