@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ChronoCampus - Room Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>ChronoCampus - Room Availability System</h1>
+
+    <div class="section">
+        <button onclick="goTo('current.html')">
+            Real-Time Status
+        </button>
+
+        <button onclick="goTo('schedule.html')">
+            Daily Schedule
+        </button>
+
+        <button onclick="goTo('search.html')">
+            Search Room
+        </button>
+
+        <button onclick="goTo('availability.html')">
+            Availability Checker
+        </button>
+    </div>
+
+    <script>
+        function goTo(page) {
+            window.location.href = page;
+        }
+    </script>
+
+</body>
+
+</html>
