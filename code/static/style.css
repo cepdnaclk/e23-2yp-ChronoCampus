@@ -1,0 +1,73 @@
+body{
+font-family: Arial, sans-serif;
+background:#f4f4f4;
+text-align:center;
+}
+
+#searchInput{
+padding:10px;
+width:250px;
+margin:20px;
+border-radius:5px;
+}
+
+#staffContainer{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+}
+
+.staff-card{
+background:white;
+width:200px;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 5px rgba(0,0,0,0.2);
+cursor:pointer;
+transition:0.3s;
+}
+
+.staff-card:hover{
+transform:scale(1.05);
+}
+
+.staff-card img{
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.staff-card h3{
+margin:10px 0 5px;
+}
+
+.staff-card p{
+color:gray;
+}
+
+.back-btn{
+margin:20px;
+padding:8px 16px;
+border:none;
+background:#aab2b8;
+color:rgb(15, 15, 15);
+border-radius:6px;
+cursor:pointer;
+}
+
+.back-btn:hover{
+background:#2980b9;
+}
+
+.staff-card{
+background:white;
+width:200px;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 5px rgba(0,0,0,0.2);
+margin:10px;
+display:inline-block;
+text-align:center;
+}
