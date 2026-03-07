@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Staff Profile</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+    <div id="profile"></div>
+
+    <h3>Update My Location</h3>
+
+    <input type="text" id="locationInput">
+
+    <button onclick="updateLocation()">Update</button>
+
+    <script>
+
+        const id = {{ staff_id }};
+
+        fetch("/api/staff/" + id)
+            .then(res => res.json())
+            .then(data => {
+
+                document.getElementById("profile").innerHTML = `
+
+<img src="/static/${data.image}" width="150">
+
+<h2>${data.name}</h2>
+
+<p>${data.department}</p>
+
+<p>Location: ${data.location}</p>
+
+`
+
+            });
+
+
+        function updateLocation() {
+
+            const location = document.getElementById("locationInput").value;
+
+            fetch("/api/update_location", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    location: location
+                })
+
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message)
+                })
+
+        }
+
+    </script>
+
+</body>
+
+</html>

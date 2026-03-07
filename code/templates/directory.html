@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>User Directory</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+    
+
+    <h2>User Directory</h2>
+    
+    <button onclick="goBack()" class="back-btn">⬅ Back</button>
+
+    <select id="roleFilter">
+        <option value="all">All</option>
+        <option value="staff">Staff</option>
+        <option value="student">Students</option>
+        <option value="admin">Admin</option>
+    </select>
+
+    <input type="text" id="searchInput" placeholder="Search user...">
+
+    <div id="staffContainer"></div>
+
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>

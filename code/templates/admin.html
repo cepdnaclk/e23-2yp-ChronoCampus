@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Panel</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+    <h2>Admin Management</h2>
+
+    <button onclick="goBack()">⬅ Back</button>
+
+    <h3>Add / Update User</h3>
+
+    <form id="userForm">
+
+        <input type="text" id="username" placeholder="User Name" required>
+
+        <input type="email" id="email" placeholder="Email" required>
+
+        <select id="role">
+            <option value="staff">Staff</option>
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <input type="text" id="department" placeholder="Department">
+
+        <input type="text" id="location" placeholder="Office Location">
+
+        <input type="file" id="image" accept="image/*">
+
+        <br><br>
+
+        <button type="button" onclick="confirmAdd()">Add User</button>
+
+        <button type="button" onclick="confirmUpdate()">Update User</button>
+
+        <button type="button" onclick="confirmDelete()">Delete User</button>
+
+    </form>
+    <h3>User List</h3>
+
+    <div id="adminUserContainer"></div>
+
+    <script src="/static/admin.js"></script>
+
+</body>
+
+</html>
