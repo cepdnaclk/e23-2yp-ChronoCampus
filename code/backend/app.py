@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request, session
 from db import get_db_connection
+from flask_cors import CORS
 import bcrypt
 import re
 
 app = Flask(__name__)
-
+CORS(app, supports_credentials=True)
 # Secret Key
 app.secret_key = "Chronocampus_2026"
 
