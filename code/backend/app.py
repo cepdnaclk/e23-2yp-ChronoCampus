@@ -8,6 +8,14 @@ app = Flask(__name__)
 # Secret Key
 app.secret_key = "Chronocampus_2026"
 
+ALLOWED_DEPARTMENTS = [
+    "Computer Engineering",
+    "Electrical And Electronic Engineering",
+    "Mechanical Engineering",
+    "Civil Engineering",
+    "Chemical Engineering",
+    "Manufacturing And Industrial Engineering"
+]
 # Password Strength Function
 def is_strong_password(password):
     if len(password) < 8:
@@ -64,7 +72,6 @@ def get_users():
 
 # Register User (With University Email Validation)
 
-#@app.route("/register", methods=["POST"])
 @app.route("/auth/register", methods=["POST"])
 def register():
     data = request.get_json()
@@ -75,9 +82,14 @@ def register():
     full_name = data.get("full_name")
     email = data.get("email")
     password = data.get("password")
-
-    if not full_name or not email or not password:
+    department = data.get("department")
+    
+    if not full_name or not email or not password or not department:
         return jsonify({"error": "All fields are required"}), 400
+    
+    # department validation
+    if department not in ALLOWED_DEPARTMENTS:
+        return jsonify({"error": "Invalid department selected"}), 400
     
     # Strong password validation
     if not is_strong_password(password):
@@ -122,14 +134,15 @@ def register():
 
     try:
         cur.execute("""
-            INSERT INTO users (full_name, email, password_hash, role)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO users (full_name, email, password_hash, role, department)
+            VALUES (%s, %s, %s, %s, %s)
             RETURNING user_id;
         """, (
             full_name,
             email,
             hashed_password.decode("utf-8"),
-            role
+            role,
+            department
         ))
 
         user_id = cur.fetchone()[0]

@@ -15,6 +15,7 @@ CREATE TABLE users (
     role VARCHAR(20) NOT NULL CHECK (
         role IN ('student', 'staff', 'admin')
     ),
+    department VARCHAR(100) NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,                     -- Account control
     email_verified BOOLEAN DEFAULT FALSE,               --(Future Enhancement)
     verification_token TEXT,
