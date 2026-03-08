@@ -8,22 +8,33 @@
 
 <body>
 
-    <h1>Room Availability</h1>
+    <header>
+        Room Availability Checker
+    </header>
 
-    <div class="section">
-        <input type="number" id="roomId" placeholder="Room ID">
-        <input type="date" id="availDate">
-        <button onclick="checkAvailability()">Check Availability</button>
-        
-        <div id="availability"></div>
+    <div class="container">
+
+        <div class="section">
+
+            <input type="number" id="roomId" placeholder="Room ID">
+
+            <input type="date" id="availDate">
+
+            <button class="action" onclick="checkAvailability()">
+                Check Availability
+            </button>
+
+            <div id="availability"></div>
+
+            <button class="back" onclick="window.location.href='index.html'">
+                Back
+            </button>
+
+        </div>
+
     </div>
-    <button onclick="window.location.href='index.html'">
-        Back to Home
-    </button>
 
-    
     <script src="script.js"></script>
-
 
 </body>
 

@@ -1,53 +1,97 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    margin: 0;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: #2c3e50;
-}
-
-.section {
-    background: white;
-    padding: 20px;
-    margin: 20px auto;
-    width: 80%;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-input, button {
-    padding: 8px;
-    margin: 5px 0;
-}
-
-button {
-    background-color: #2c3e50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #34495e;
-}
-
-.card {
-    background: #ecf0f1;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 5px;
-}
-
-.occupied {
-    color: red;
-    font-weight: bold;
-}
-
-.free {
-    color: green;
-    font-weight: bold;
-}
+body{
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#eef2f7;
+    margin:0;
+    padding:0;
+    }
+    
+    header{
+    background:#1f2d3d;
+    color:white;
+    padding:20px;
+    text-align:center;
+    font-size:24px;
+    font-weight:600;
+    }
+    
+    .container{
+    width:90%;
+    max-width:1000px;
+    margin:30px auto;
+    }
+    
+    .nav{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    margin-bottom:30px;
+    }
+    
+    .nav button{
+    padding:15px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    transition:0.2s;
+    }
+    
+    .nav button:hover{
+    background:#2563eb;
+    }
+    
+    .section{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom:25px;
+    }
+    
+    input{
+    padding:10px;
+    width:100%;
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:14px;
+    }
+    
+    button.action{
+    padding:10px 18px;
+    background:#10b981;
+    border:none;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    }
+    
+    button.action:hover{
+    background:#059669;
+    }
+    
+    .card{
+    background:#f8fafc;
+    padding:15px;
+    margin-top:10px;
+    border-radius:6px;
+    border-left:5px solid #3b82f6;
+    }
+    
+    .occupied{
+    color:#dc2626;
+    font-weight:600;
+    }
+    
+    .free{
+    color:#16a34a;
+    font-weight:600;
+    }
+    
+    .back{
+    margin-top:20px;
+    background:#64748b;
+    }

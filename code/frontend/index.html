@@ -2,30 +2,38 @@
 <html>
 
 <head>
-    <title>ChronoCampus - Room Viewer</title>
+    <title>ChronoCampus</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>ChronoCampus - Room Availability System</h1>
+    <header>
+        ChronoCampus Room Management
+    </header>
 
-    <div class="section">
-        <button onclick="goTo('current.html')">
-            Real-Time Status
-        </button>
+    <div class="container">
 
-        <button onclick="goTo('schedule.html')">
-            Daily Schedule
-        </button>
+        <div class="nav">
 
-        <button onclick="goTo('search.html')">
-            Search Room
-        </button>
+            <button onclick="goTo('current.html')">
+                Real Time Room Status
+            </button>
 
-        <button onclick="goTo('availability.html')">
-            Availability Checker
-        </button>
+            <button onclick="goTo('schedule.html')">
+                Daily Schedule
+            </button>
+
+            <button onclick="goTo('search.html')">
+                Search Room
+            </button>
+
+            <button onclick="goTo('availability.html')">
+                Check Availability
+            </button>
+
+        </div>
+
     </div>
 
     <script>
