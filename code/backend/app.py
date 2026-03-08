@@ -17,7 +17,7 @@ CORS(app)
 # =========================
 def get_db_connection():
     conn = psycopg2.connect(
-        host=os.getenv("DB_HOST")
+        host=os.getenv("DB_HOST"),
         database=os.getenv("DB_NAME"),   # change this
         user=os.getenv("DB_USER"),            # user "postgres"
         password=os.getenv("DB_PASSWORD")         # password "kali"
