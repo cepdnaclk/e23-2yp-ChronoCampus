@@ -2,8 +2,10 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from datetime import datetime, time
 import psycopg2
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
 # =========================
 # CREATE FLASK APP
 # =========================
@@ -15,10 +17,10 @@ CORS(app)
 # =========================
 def get_db_connection():
     conn = psycopg2.connect(
-        host="localhost",
-        database= "chronocampus",   # change this
-        user="postgres",            # change this
-        password="kali"         # change this
+        host=os.getenv("DB_HOST")
+        database=os.getenv("DB_NAME"),   # change this
+        user=os.getenv("DB_USER"),            # user "postgres"
+        password=os.getenv("DB_PASSWORD")         # password "kali"
     )
     return conn
 # Home Page
