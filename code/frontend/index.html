@@ -15,23 +15,43 @@
     <div class="container">
 
         <div class="nav">
-
-            <button onclick="goTo('current.html')">
-                Real Time Room Status
-            </button>
-
-            <button onclick="goTo('schedule.html')">
-                Daily Schedule
-            </button>
-
-            <button onclick="goTo('search.html')">
-                Search Room
-            </button>
-
-            <button onclick="goTo('availability.html')">
-                Check Availability
-            </button>
-
+        
+            <div class="tooltip">
+                <button onclick="goTo('current.html')">
+                    Real Time Status
+                </button>
+                <span class="tooltiptext">
+                    Shows which rooms are currently free or occupied
+                </span>
+            </div>
+        
+            <div class="tooltip">
+                <button onclick="goTo('schedule.html')">
+                    Daily Schedule
+                </button>
+                <span class="tooltiptext">
+                    Displays all room bookings for the selected date
+                </span>
+            </div>
+        
+            <div class="tooltip">
+                <button onclick="goTo('search.html')">
+                    Search Room
+                </button>
+                <span class="tooltiptext">
+                    Search a room by name and view reservations
+                </span>
+            </div>
+        
+            <div class="tooltip">
+                <button onclick="goTo('availability.html')">
+                    Availability Checker
+                </button>
+                <span class="tooltiptext">
+                    Shows available time slots for a specific room
+                </span>
+            </div>
+        
         </div>
 
     </div>
