@@ -1,0 +1,118 @@
+/* ============================================================
+   ChronoCampus — reservations.css
+   My Reservations page layout and styles
+   ============================================================ */
+
+.res-layout {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Page heading ────────────────────────────────────────────── */
+.page-heading { margin-bottom: 0.25rem; }
+.page-heading h1 { font-family: var(--font-display); font-size: 1.75rem; }
+.page-heading p  { font-size: 0.875rem; color: var(--muted); margin-top: 0.3rem; }
+
+/* ── Stats bar ───────────────────────────────────────────────── */
+.res-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* ── Filter + search row ─────────────────────────────────────── */
+.res-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Reservation cards ───────────────────────────────────────── */
+.res-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.res-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  backdrop-filter: blur(12px);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  transition: border-color 0.2s;
+}
+
+.res-card:hover { border-color: rgba(37,99,235,0.3); }
+
+.res-card.status-approved  { border-left: 3px solid var(--green); }
+.res-card.status-pending   { border-left: 3px solid var(--yellow); }
+.res-card.status-rejected  { border-left: 3px solid var(--red); }
+.res-card.status-cancelled { border-left: 3px solid var(--muted2); }
+
+.res-card-left { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.res-room {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.res-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.res-meta-sep { color: var(--muted2); }
+
+.res-id {
+  font-size: 0.7rem;
+  color: var(--muted2);
+  margin-top: 0.1rem;
+}
+
+.res-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--muted);
+}
+
+.empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+.empty-title { font-family: var(--font-display); font-size: 1.2rem; color: var(--white); margin-bottom: 0.4rem; }
+.empty-sub   { font-size: 0.875rem; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .res-stats { grid-template-columns: 1fr 1fr; }
+  .res-card  { grid-template-columns: 1fr; }
+  .res-card-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  .res-toolbar { flex-direction: column; align-items: stretch; }
+}
+
+@media (max-width: 420px) {
+  .res-stats { grid-template-columns: 1fr 1fr; }
+  .res-layout { padding: 1.5rem 1rem 4rem; }
+}

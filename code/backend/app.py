@@ -1,68 +1,42 @@
 from flask import Flask
-from extensions import db
+from flask_cors import CORS
 from config import Config
+from database import db
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
+from models.room import Room
+from models.users import User
+from models.reservation import Reservation
+from models.override_request import OverrideRequest
+from models.notification import Notification
+from models.watchlist import RoomWatchlist
+from models.waitlist import RoomWaitlist
 
-    db.init_app(app)
+from routes.reservation_routes import reservation_bp
 
-    from routes.reservation import reservation_bp
-    app.register_blueprint(reservation_bp)
-
-    @app.route("/")
-    def home():  
-        return "ChronoCampus Backend is Running!"
-    with app.app_context():
-        from models.room import Room
-        from models.user import User
-        from models.facility import Facility
-        from models.reservation import Reservation
-        db.create_all()
-
-        # Add sample room if not exists
-        if not Room.query.first():
-            sample_room = Room(
-            room_id="R001",
-            room_name="Lab 1",
-            capacity=40,
-            location="Block A",
-            availability_status="available"
-            )
-            db.session.add(sample_room)
-
-        # Add sample user if not exists
-        if not User.query.first():
-            sample_user = User(
-            user_id="U001",
-            name="Test Student",
-            email="student@test.com",
-            password="1234",
-            role="student"
-            )
-            db.session.add(sample_user)
-        
-        db.session.commit() 
-
-        # Add sample staff if not exists
-        if not User.query.filter_by(user_id="STAFF001").first():
-            staff_user = User(
-            user_id="STAFF001",
-            name="Dr. Smith",
-            email="dr.smith@university.com",
-            password="1234",
-            role="staff"
-            )
-            db.session.add(staff_user)
-
-        db.session.commit()
-        
-
-    return app
+from routes.watchlist_routes import watchlist_bp
 
 
-app = create_app()
+app = Flask(__name__)
+app.config.from_object(Config)
+app.config["SQLALCHEMY_ECHO"] = True
+CORS(app)
+
+db.init_app(app)
+
+
+
+with app.app_context():
+    db.create_all()
+    print("Tables created!")
+
+app.register_blueprint(reservation_bp)
+app.register_blueprint(watchlist_bp)
+
+print("DATABASE:", app.config["SQLALCHEMY_DATABASE_URI"]) 
+
+@app.route("/")
+def home():
+    return {"message": "ChronoCampus Backend Running"}
 
 if __name__ == "__main__":
     app.run(debug=True)

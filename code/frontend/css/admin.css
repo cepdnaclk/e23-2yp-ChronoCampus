@@ -1,0 +1,155 @@
+/* ============================================================
+   ChronoCampus — admin.css
+   Admin dashboard layout: sidebar + content area
+   ============================================================ */
+
+/* ── Layout shell ────────────────────────────────────────────── */
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-content {
+  margin-left: 240px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Sections ────────────────────────────────────────────────── */
+.admin-section { display: none; }
+.admin-section.active { display: flex; flex-direction: column; gap: 1.25rem; animation: fadeUp 0.3s ease both; }
+
+/* ── Overview grid ───────────────────────────────────────────── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Two-col layout ──────────────────────────────────────────── */
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+/* ── Section header ──────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.section-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
+/* ── Override request cards ──────────────────────────────────── */
+.override-cards { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.override-card {
+  background: var(--glass);
+  border: 1px solid rgba(234,179,8,0.2);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  backdrop-filter: blur(12px);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.override-card:hover { border-color: rgba(234,179,8,0.35); }
+
+.override-room   { font-size: 0.95rem; font-weight: 600; }
+.override-detail { font-size: 0.8rem;  color: var(--muted); margin-top: 0.25rem; line-height: 1.5; }
+.override-party  { font-size: 0.78rem; color: var(--status-pending-text); margin-top: 0.3rem; }
+.override-actions { display: flex; gap: 0.5rem; }
+
+/* ── User cards ──────────────────────────────────────────────── */
+.user-cards { display: flex; flex-direction: column; gap: 0.65rem; }
+
+.user-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: border-color 0.2s;
+}
+
+.user-card:hover { border-color: rgba(37,99,235,0.3); }
+
+.user-info { display: flex; align-items: center; gap: 0.75rem; }
+.user-avatar-sm {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy-500), var(--blue-400));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; color: var(--white);
+  flex-shrink: 0;
+}
+.user-name  { font-size: 0.875rem; font-weight: 600; }
+.user-email { font-size: 0.75rem; color: var(--muted); }
+.user-role-tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 8px; border-radius: 10px; }
+.role-student { background: rgba(37,99,235,0.12);  color: var(--blue-200); }
+.role-staff   { background: rgba(201,168,76,0.12); color: var(--gold); }
+.role-admin   { background: rgba(34,197,94,0.12);  color: #86efac; }
+
+.user-inactive { opacity: 0.55; }
+.user-inactive .user-name { text-decoration: line-through; }
+
+/* ── Watchlist & Waitlist tables inside admin ────────────────── */
+.admin-table-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.admin-table-header {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-table-title { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .admin-content { margin-left: 0; }
+  .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .admin-main { padding: 1.25rem 1rem; }
+  .two-col-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .override-card { grid-template-columns: 1fr; }
+  .override-actions { flex-wrap: wrap; }
+}

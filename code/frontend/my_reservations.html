@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChronoCampus — My Reservations</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/reservations.css"/>
+</head>
+<body>
+<div class="bg-layer"></div>
+<div class="grid-overlay"></div>
+<div class="page-wrap">
+
+  <!-- ── Navbar ─────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-icon">🏛️</div>
+      <div>
+        <div class="logo-text">Chrono<span>Campus</span></div>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="booking.html">Book a Room</a></li>
+      <li><a href="my_reservations.html" class="active">My Reservations</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="notif-bell" id="notifBell" title="Notifications">
+        🔔<span class="notif-dot" id="notifDot"></span>
+      </button>
+      <div class="nav-user">
+        <span id="navUserName">—</span>
+        <div class="avatar" id="navAvatar">—</div>
+        <button class="logout-btn" onclick="Auth.logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Notification panel ─────────────────────────────────── -->
+  <div class="notif-panel" id="notifPanel">
+    <div class="notif-panel-header">
+      <span class="notif-panel-title">🔔 Notifications</span>
+      <button class="notif-mark-all" onclick="Notifications.markAllRead()">Mark all read</button>
+    </div>
+    <div class="notif-list" id="notifList">
+      <div class="notif-empty">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ── Main ───────────────────────────────────────────────── -->
+  <main style="flex:1">
+    <div class="res-layout">
+
+      <!-- Page heading -->
+      <div class="page-heading anim-fade-up">
+        <h1>My Reservations</h1>
+        <p>Track, manage and cancel your room bookings.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="res-stats anim-fade-up-1">
+        <div class="stat-card blue">
+          <div class="stat-label">Total</div>
+          <div class="stat-value" id="statTotal">—</div>
+          <div class="stat-sub">all bookings</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-label">Pending</div>
+          <div class="stat-value" id="statPending">—</div>
+          <div class="stat-sub">awaiting approval</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">Approved</div>
+          <div class="stat-value" id="statApproved">—</div>
+          <div class="stat-sub">confirmed</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-label">Cancelled</div>
+          <div class="stat-value" id="statCancelled">—</div>
+          <div class="stat-sub">or rejected</div>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="res-toolbar anim-fade-up-2">
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="pending">Pending</button>
+          <button class="filter-tab" data-filter="approved">Approved</button>
+          <button class="filter-tab" data-filter="rejected">Rejected</button>
+          <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+        </div>
+        <div style="display:flex;gap:0.6rem;align-items:center">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="form-input" placeholder="Search room or ID…"/>
+          </div>
+          <button class="btn btn-ghost" style="height:40px;padding:0 0.9rem;white-space:nowrap;font-size:0.82rem" onclick="loadReservations()">↻ Refresh</button>
+        </div>
+      </div>
+
+      <!-- Info: override cancellation notice -->
+      <div id="overrideBanner" style="display:none;padding:0.75rem 1rem;background:rgba(234,179,8,0.08);border:1px solid rgba(234,179,8,0.3);border-radius:10px;font-size:0.82rem;color:#fde68a;">
+        ⚠️ One or more of your reservations may have been cancelled due to a lecturer override. Check your notifications for details.
+      </div>
+
+      <!-- Reservation cards -->
+      <div id="resCards" class="res-cards anim-fade-up-3">
+        <div style="text-align:center;padding:3rem;color:var(--muted)">
+          <div class="spinner" style="margin:0 auto 1rem"></div>
+          Loading reservations…
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ── Cancel confirmation modal ─────────────────────────────── -->
+<div class="overlay" id="cancelModal">
+  <div class="modal modal-red">
+    <div class="modal-icon icon-red">⚠️</div>
+    <h2>Cancel Reservation?</h2>
+    <p>This action cannot be undone. Watchers and queue members will be notified that the slot is now available.</p>
+    <div class="modal-btns">
+      <button class="btn btn-red" id="cancelConfirmBtn" onclick="confirmCancel()">Yes, Cancel It</button>
+      <button class="btn btn-ghost" onclick="closeModal('cancelModal')">Keep It</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ── Scripts ─────────────────────────────────────────────────── -->
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/reservations.js"></script>
+</body>
+</html>
