@@ -10,11 +10,14 @@ The goal of this module is to provide secure user management, login sessions, an
 
 This module handles:
 
-- User registration and profile management
+- User registration
 - Secure login and logout functionality
-- Session handling using Flask
-- Role-based access control (Student / Staff / Admin)
-- Authentication APIs for frontend integration
+- University email validation and format verification
+- Password security using hashing (bcrypt)
+- Session handling using Flask backend framework
+- Role detection (Student / Staff / Admin)
+- Backend API development for frontend integration
+- PostgreSQL database intergration
 
 This is the **core security layer** of the ChronoCampus platform.
 
