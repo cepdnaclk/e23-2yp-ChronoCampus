@@ -1,105 +1,103 @@
 const backendURL = "http://127.0.0.1:5000";
 
+/* ---------------- Message helper ----------------*/
+function setMessage(elId, msg, type) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = (type === "error" ? "⚠ " : "✓ ") + msg;
+  el.className   = type; // triggers CSS colour
+}
+
 /* ---------------- SIGNUP ---------------- */
-
 const signupForm = document.getElementById("signupForm");
+if (signupForm) {
+  signupForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const btn = signupForm.querySelector("button[type=submit]");
+    btn.disabled    = true;
+    btn.textContent = "Creating account…";
 
-if(signupForm){
+    const data = {
+      full_name:  document.getElementById("full_name").value.trim(),
+      email:      document.getElementById("email").value.trim(),
+      password:   document.getElementById("password").value,
+      department: document.getElementById("department").value
+    };
 
-signupForm.addEventListener("submit", async function(e){
+    try {
+      const response = await fetch(`${backendURL}/auth/register`, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(data)
+      });
 
-e.preventDefault();
+      const result = await response.json();
 
-const data = {
-full_name: document.getElementById("full_name").value,
-email: document.getElementById("email").value,
-password: document.getElementById("password").value,
-department: document.getElementById("department").value
-};
+      if (!response.ok) {
+        setMessage("message", result.error || "Registration failed", "error");
+        btn.disabled    = false;
+        btn.textContent = "Register";
+        return;
+      }
 
-try{
+      setMessage("message", result.message || "Account created! Redirecting…", "success");
+      setTimeout(() => window.location.href = "login.html", 1500);
 
-const response = await fetch(`${backendURL}/auth/register`,{
-
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify(data)
-
-});
-
-const result = await response.json();
-
-document.getElementById("message").innerText =
-result.message || result.error;
-
-if(result.message){
-setTimeout(()=>{
-window.location.href="login.html";
-},1500);
+    } catch {
+      setMessage("message", "Cannot connect to server. Is Flask running?", "error");
+      btn.disabled    = false;
+      btn.textContent = "Register";
+    }
+  });
 }
 
-}catch(error){
-
-document.getElementById("message").innerText="Server error";
-
-}
-
-});
-
-}
-
-/* ---------------- LOGIN ---------------- */
-
+/* ---------------- LOGIN ----------------*/
 const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const btn = loginForm.querySelector("button[type=submit]");
+    btn.disabled    = true;
+    btn.textContent = "Signing in…";
 
-if(loginForm){
+    const data = {
+      email:    document.getElementById("login_email").value.trim(),
+      password: document.getElementById("login_password").value
+    };
 
-loginForm.addEventListener("submit", async function(e){
+    try {
+      const response = await fetch(`${backendURL}/auth/login`, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(data),
+        credentials: "include"
+      });
 
-e.preventDefault();
+      if (!response.ok) {
+        const err = await response.json();
+        setMessage("loginMessage", err.error || "Login failed", "error");
+        btn.disabled    = false;
+        btn.textContent = "Login";
+        return;
+      }
 
-const data = {
-email: document.getElementById("login_email").value,
-password: document.getElementById("login_password").value
-};
+      const result = await response.json();
+      const user   = result.user;
 
-try{
+      // --- Save session to sessionStorage (tab-isolated) ---
+      sessionStorage.setItem("user_id",   user.user_id);
+      sessionStorage.setItem("role",      user.role);
+      sessionStorage.setItem("user_name", user.full_name);
 
-const response = await fetch(`${backendURL}/auth/login`,{
+      setMessage("loginMessage", "Login successful! Redirecting…", "success");
 
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify(data),
-credentials:"include"
+      // --- Go to dashboard.html — it redirects by role ---
+      setTimeout(() => window.location.href = "dashboard.html", 800);
 
-});
-if(!response.ok){
-    const errorData = await response.json();
-    document.getElementById("loginMessage").innerText =
-        errorData.error || "Login failed";
-    return;
-}
-
-const result = await response.json();
-
-document.getElementById("loginMessage").innerText =
-result.message;
-
-// Redirect to home page (for testing)
-setTimeout(() => {
-    window.location.href = "home.html";
-}, 1000);
-
-}catch(error){
-
-document.getElementById("loginMessage").innerText="Cannot connect to server";
-
-}
-
-});
-
+    } catch {
+      setMessage("loginMessage", "Cannot connect to server. Is Flask running?", "error");
+      btn.disabled    = false;
+      btn.textContent = "Login";
+    }
+  });
 }

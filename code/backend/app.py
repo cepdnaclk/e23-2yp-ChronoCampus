@@ -15,7 +15,8 @@ ALLOWED_DEPARTMENTS = [
     "Mechanical Engineering",
     "Civil Engineering",
     "Chemical Engineering",
-    "Manufacturing And Industrial Engineering"
+    "Manufacturing And Industrial Engineering",
+    "Mathematics"
 ]
 # Password Strength Function
 def is_strong_password(password):
