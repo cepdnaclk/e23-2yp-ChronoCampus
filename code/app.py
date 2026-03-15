@@ -53,7 +53,6 @@ def admin_page():
 
     #if session.get("role") != "admin":
      #   return "Access Denied: Only admin can access", 403
-
     return render_template("admin.html")
 
 import os
