@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChronoCampus — Time-Aware Smart Infrastructure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+:root {
+  --navy-900: #060c18;
+  --navy-800: #080d1a;
+  --navy-700: #0b1120;
+  --navy-600: #111d33;
+  --blue-500: #1a4fd6;
+  --blue-400: #2563eb;
+  --blue-300: #3b82f6;
+  --blue-200: #60a5fa;
+  --cyan:     #00d4ff;
+  --cyan-dim: rgba(0,212,255,0.15);
+  --cyan-glow: rgba(0,212,255,0.35);
+  --gold:     #c9a84c;
+  --white:    #f0f4ff;
+  --muted:    #8a9bbf;
+  --muted2:   #4a5a78;
+  --border:   rgba(37,99,235,0.2);
+  --font-display: 'Playfair Display', serif;
+  --font-tech:    'Orbitron', monospace;
+  --font-body:    'DM Sans', sans-serif;
+}
+ 
+html, body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  background: var(--navy-900);
+  color: var(--white);
+  overflow-x: hidden;
+}
+ 
+/* ── Background layers ── */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+ 
+.bg-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 5%, rgba(0,212,255,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 85% 90%, rgba(37,99,235,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 55% 45%, rgba(37,99,235,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 30% 75%, rgba(201,168,76,0.04) 0%, transparent 50%);
+}
+ 
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+ 
+/* Animated scan line */
+.bg-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent);
+  animation: scan 6s linear infinite;
+}
+@keyframes scan {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+ 
+/* ── Page layout ── */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+ 
+/* ── Header ── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid rgba(0,212,255,0.08);
+  backdrop-filter: blur(8px);
+  animation: fadeDown 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+ 
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+ 
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--blue-400), #0ea5e9);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 0 16px rgba(37,99,235,0.4);
+}
+ 
+.logo-text {
+  font-family: var(--font-tech);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+ 
+.logo-text span { color: var(--cyan); }
+ 
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+}
+ 
+.btn-nav {
+  padding: 0.5rem 1.4rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+ 
+.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(0,212,255,0.3);
+  color: var(--cyan);
+}
+.btn-outline:hover {
+  background: var(--cyan-dim);
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+ 
+.btn-solid {
+  background: linear-gradient(135deg, var(--blue-400), #1a4fd6);
+  border: 1px solid transparent;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+}
+.btn-solid:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(37,99,235,0.5);
+}
+ 
+/* ── Hero ── */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem 4rem;
+}
+ 
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 2rem;
+  animation: fadeUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+.badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+ 
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+  animation: fadeUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+.hero h1 .accent {
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--blue-300) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+ 
+.hero-sub {
+  font-family: var(--font-tech);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 1.6rem;
+  animation: fadeUp 0.7s 0.25s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+.hero p {
+  max-width: 560px;
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 0.7s 0.4s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+.btn-hero-primary {
+  padding: 0.85rem 2.2rem;
+  background: linear-gradient(135deg, var(--blue-400), #1a4fd6);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(37,99,235,0.55);
+}
+ 
+.btn-hero-secondary {
+  padding: 0.85rem 2.2rem;
+  background: rgba(0,212,255,0.07);
+  color: var(--cyan);
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-hero-secondary:hover {
+  background: rgba(0,212,255,0.14);
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px var(--cyan-glow);
+  transform: translateY(-2px);
+}
+ 
+/* ── Holographic card display ── */
+.hero-visual {
+  margin-top: 4rem;
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  animation: fadeUp 0.8s 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+.holo-frame {
+  background: rgba(8,13,26,0.85);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 18px;
+  padding: 1.5rem;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(0,212,255,0.06) inset,
+    0 32px 80px rgba(0,0,0,0.6),
+    0 0 40px rgba(0,212,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+ 
+/* Corner accents */
+.holo-frame::before, .holo-frame::after {
+  content: "";
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--cyan);
+  border-style: solid;
+  opacity: 0.6;
+}
+.holo-frame::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: 3px 0 0 0; }
+.holo-frame::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 3px 0; }
+ 
+.holo-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0,212,255,0.1);
+}
+ 
+.holo-dot { width: 7px; height: 7px; border-radius: 50%; }
+.holo-dot.red   { background: #ef4444; }
+.holo-dot.amber { background: #f59e0b; }
+.holo-dot.green { background: #22c55e; }
+ 
+.holo-title {
+  margin-left: auto;
+  font-family: var(--font-tech);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--cyan);
+  opacity: 0.7;
+}
+ 
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+ 
+.stat-card {
+  background: rgba(0,212,255,0.04);
+  border: 1px solid rgba(0,212,255,0.1);
+  border-radius: 10px;
+  padding: 1.1rem 1rem;
+  text-align: left;
+}
+ 
+.stat-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  margin-bottom: 0.4rem;
+}
+ 
+.stat-value {
+  font-family: var(--font-tech);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+}
+ 
+.stat-value.cyan { color: var(--cyan); }
+.stat-value.blue { color: var(--blue-200); }
+.stat-value.gold { color: var(--gold); }
+ 
+.stat-sub {
+  font-size: 0.72rem;
+  color: var(--muted2);
+  margin-top: 0.25rem;
+}
+ 
+/* ── Features ── */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 900px;
+  margin: 4rem auto 2rem;
+  padding: 0 2rem;
+  animation: fadeUp 0.8s 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+ 
+.feature-card {
+  background: rgba(8,13,26,0.6);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.feature-card:hover {
+  border-color: rgba(0,212,255,0.3);
+  transform: translateY(-3px);
+}
+ 
+.feature-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+ 
+.feature-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.35rem;
+}
+ 
+.feature-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+ 
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.78rem;
+  color: var(--muted2);
+  border-top: 1px solid rgba(0,212,255,0.06);
+}
+ 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+ 
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  header { padding: 1.2rem 1.5rem; }
+  .hero h1 { font-size: 2.4rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .features { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+ 
+<div class="bg">
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-scan"></div>
+</div>
+ 
+<div class="page">
+ 
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🏛️</div>
+      <div class="logo-text">Chrono<span>Campus</span></div>
+    </div>
+    <!--
+    <div class="logo">
+       <img src="your-logo.png" height="38" style="border-radius:9px;">
+       <div class="logo-text">Chrono<span>Campus</span></div>
+    </div>-->
+    <nav class="nav-links">
+      <a href="login.html" class="btn-nav btn-outline">Login</a>
+      <a href="signup.html" class="btn-nav btn-solid">Sign Up</a>
+    </nav>
+  </header>
+ 
+  <!-- Hero -->
+  <main class="hero">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Now live · University of Peradeniya
+    </div>
+ 
+    <h1>Welcome to<br><span class="accent">ChronoCampus</span></h1>
+    <p class="hero-sub">Time-Aware Smart Infrastructure Orchestration</p>
+ 
+    <p>A unified platform for managing university resources, schedules, and services — intelligently orchestrated around time for students, staff, and administrators.</p>
+ 
+    <div class="hero-actions">
+     <!-- <a href="signup.html" class="btn-hero-primary">
+        <span>Get Started</span>
+        <span>→</span>
+      </a> -->
+      <a href="login.html" class="btn-hero-secondary">
+        <span>Get Started</span>
+        <span>→</span>
+      </a>
+    </div>
+ 
+    <!-- Dashboard preview card -->
+    <div class="hero-visual">
+      <div class="holo-frame">
+        <div class="holo-top">
+          <span class="holo-dot red"></span>
+          <span class="holo-dot amber"></span>
+          <span class="holo-dot green"></span>
+          <span class="holo-title">SYSTEM DASHBOARD · LIVE</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Active Users</div>
+            <div class="stat-value cyan">1,284</div>
+            <div class="stat-sub">Students &amp; Staff</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Rooms Available</div>
+            <div class="stat-value blue">3 / 12</div>
+            <div class="stat-sub">Book a room now</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">System Status</div>
+            <div class="stat-value gold">Online</div>
+            <div class="stat-sub">All modules active</div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Feature highlights -->
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🔐</div>
+        <div class="feature-title">Secure Authentication</div>
+        <div class="feature-desc">University email validation, role detection, and bcrypt-protected accounts.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏫</div>
+        <div class="feature-title">Room Reservations</div>
+        <div class="feature-desc">Book rooms, join waitlists, and manage schedules in real time.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏱️</div>
+        <div class="feature-title">Time-Aware System</div>
+        <div class="feature-desc">Smart orchestration that adapts to academic schedules and availability.</div>
+      </div>
+    </div>
+  </main>
+ 
+  <footer>
+    &copy; 2025 ChronoCampus · University of Peradeniya · Engineering Faculty
+  </footer>
+ 
+</div>
+</body>
+</html>
