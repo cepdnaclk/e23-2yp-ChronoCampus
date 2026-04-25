@@ -15,7 +15,7 @@
 
     <script>
 
-        const id = {{ staff_id }};
+        const id = { staff_id };
 
         fetch("/api/staff/" + id)
             .then(res => res.json())
