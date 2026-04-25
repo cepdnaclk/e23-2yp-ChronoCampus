@@ -1,3 +1,5 @@
+let userList = [];
+
 function goBack() {
     window.location.href = "/";
 }
@@ -93,6 +95,7 @@ function saveUser(action) {
 fetch("/api/users")
     .then(res => res.json())
     .then(data => {
+        userList = data;
         displayAdminUsers(data);
     });
 
@@ -101,35 +104,59 @@ fetch("/api/users")
 function displayAdminUsers(users) {
 
     const container = document.getElementById("adminUserContainer");
-
     container.innerHTML = "";
+
+    container.innerHTML = `
+    <div class="staff-card add-card" onclick="goAddUser()">
+        <div class="add-icon">+</div>
+        <h3>Add User</h3>
+    </div>
+`;
 
     users.forEach(u => {
 
-        container.innerHTML += `
+    container.innerHTML += `
+    <div class="staff-card">
 
-<div class="staff-card">
+        <img src="/static/${u.image}" width="100">
 
-<img src="/static/${u.image}" width="100">
+        <h3>${u.name}</h3>
 
-<h3>${u.name}</h3>
+        <p>${u.department}</p>
 
-<p>${u.department}</p>
+        <button onclick="goEdit(${u.id})">Update</button>
+        <button onclick="deleteUser('${u.name}')">Delete</button>
 
-<button onclick="editUser('${u.name}','${u.email}','${u.role}','${u.department}','${u.location}')">
-Update
-</button>
+    </div>
+    `;
+});
 
-<button onclick="deleteUser('${u.name}')">
-Delete
-</button>
+}
 
-</div>
+const searchInput = document.getElementById("searchInput");
+const roleFilter = document.getElementById("roleFilter");
 
-`;
+searchInput.addEventListener("input", filterUsers);
+roleFilter.addEventListener("change", filterUsers);
 
+function filterUsers(){
+
+    const search = searchInput.value.toLowerCase();
+    const role = roleFilter.value;
+
+    const filtered = userList.filter(u => {
+
+        const matchSearch = u.name.toLowerCase().includes(search);
+        const matchRole = role === "all" || u.role === role;
+
+        return matchSearch && matchRole;
     });
 
+    displayAdminUsers(filtered);
+}
+
+function goAddUser(){
+    window.location.href = "/add";
 }
 
 /* ---------- DELETE BUTTON ---------- */
@@ -166,4 +193,8 @@ function editUser(name, email, role, department, location) {
     document.getElementById("department").value = department;
     document.getElementById("location").value = location;
 
+}
+
+function goEdit(id){
+    window.location.href = "/edit/" + id;
 }
