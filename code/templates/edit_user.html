@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<h2>Edit User</h2>
+<button>Save Changes</button>
+
+<form id="editForm" class="form-container">
+
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="username" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Role</label>
+        <select id="role">
+            <option value="staff">Staff</option>
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Department</label>
+        <input type="text" id="department">
+    </div>
+
+    <div class="form-group">
+        <label>Office Location</label>
+        <input type="text" id="location">
+    </div>
+
+    <div class="form-group">
+        <label>Profile Image</label>
+        <input type="file" id="image">
+    </div>
+
+    <div class="form-buttons">
+        <button type="button" onclick="updateUser()">Save Changes</button>
+        <button type="button" onclick="goBack()">Cancel</button>
+    </div>
+
+</form>
+
+<script>
+
+const id = {{ user_id }};
+
+// LOAD USER DATA
+fetch("/api/users")
+.then(res => res.json())
+.then(data => {
+
+    const user = data.find(u => u.id === id);
+
+    document.getElementById("username").value = user.name;
+    document.getElementById("email").value = user.email || "";
+    document.getElementById("role").value = user.role;
+    document.getElementById("department").value = user.department;
+    document.getElementById("location").value = user.location;
+
+});
+
+// UPDATE USER
+function updateUser(){
+
+    const formData = new FormData();
+
+    formData.append("username", document.getElementById("username").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("role", document.getElementById("role").value);
+    formData.append("department", document.getElementById("department").value);
+    formData.append("location", document.getElementById("location").value);
+    formData.append("action", "update");
+
+    const fileInput = document.getElementById("image");
+
+    if(fileInput.files.length > 0){
+        formData.append("image", fileInput.files[0]);
+    }
+
+    fetch("/api/manage_user", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Updated successfully");
+        window.location.href = "/admin";
+    });
+
+}
+
+function goBack(){
+    window.location.href = "/admin";
+}
+
+</script>
+
+</body>
+</html>
