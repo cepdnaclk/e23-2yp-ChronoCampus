@@ -27,7 +27,7 @@ function displayUsers(users){
     users.forEach(u => {
 
         container.innerHTML += `
-        <div class="staff-card" onclick="showLocation('${u.location}')">
+        <div class="staff-card" onclick="openProfile(${u.id})">
 
             <img src="/static/${u.image}" width="120">
 
@@ -85,4 +85,8 @@ function filterUsers(){
 
 function goBack(){
     window.location.href = "/";
+}
+
+function openProfile(id){
+    window.location.href = "/staff/" + id;
 }
