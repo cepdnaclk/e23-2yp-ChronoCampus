@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Search Room</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        Search Room
+    </header>
+
+    <div class="container">
+
+        <div class="section">
+
+            <input type="text" id="searchName" placeholder="Room name">
+
+            <input type="date" id="searchDate">
+
+            <button class="action" onclick="searchRoom()">
+                Search
+            </button>
+
+            <div id="searchResult"></div>
+
+            <button class="back" onclick="window.location.href='index.html'">
+                Back
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

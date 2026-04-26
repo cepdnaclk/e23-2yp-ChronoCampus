@@ -114,3 +114,53 @@ Branch:
 
 ## How to Run
 Execution instructions will be added after backend and frontend integration
+
+# ChronoCampus – Room Visibility and Availability Module  
+### Member 2 (Thanush V.)Contribution
+
+## Overview
+
+This module provides real-time room status and schedule visibility for the ChronoCampus system.  
+
+It allows users to:
+
+- View all lecture halls and labs  
+- Check real-time room status (Free / Occupied)  
+- View daily schedules  
+- Search rooms by name  
+- Check available time slots within working hours  
+
+---
+
+## Scope of Work
+
+This module includes:
+
+- Database structure related to `rooms` and `reservations`
+- Backend REST APIs for room visibility
+- Frontend interfaces for displaying room data
+
+This module does **not** include:
+- User authentication (Member 1)
+- Booking and cancellation logic (Member 3)
+- Staff and lecturer management (Member 4)
+
+---
+
+## Database
+
+### Tables Used
+
+- `rooms`
+- `reservations`
+
+### Constraints
+
+- Bookings allowed only between **08:00 and 17:00**
+- `start_time` must be less than `end_time`
+- No overlapping reservations
+- Minute-level precision supported
+- Foreign key relationship: `reservations.user_id → users.id`
+- Foreign key relationship: `reservations.room_id → rooms.id`
+
+The database structure is defined in:
