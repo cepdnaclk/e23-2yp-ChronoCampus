@@ -113,10 +113,77 @@ Branch:
 - Member 4: Notification and staff module
 
 ## How to Run
-Execution instructions will be added after backend and frontend integration
+### 1. Clone Repository
 
-# ChronoCampus – Room Visibility and Availability Module  
-### Member 2 (Thanush V.)Contribution
+git clone https://github.com/cepdnaclk/e23-co2060-ChronoCampus.git  
+cd e23-co2060-ChronoCampus  
+
+---
+
+### 2. Setup Database
+
+Open terminal:
+
+psql -U postgres  
+
+Create database:
+
+CREATE DATABASE chronocampus;  
+\c chronocampus  
+
+Run schema:
+
+\i schema.sql  
+
+This will:
+
+• Create all tables  
+• Insert sample room data  
+
+---
+
+### 3. Setup Backend
+
+Go to backend folder:
+
+cd code/backend  
+
+Install dependencies:
+
+pip install -r requirements.txt  
+
+---
+
+### 4. Configure Environment Variables
+
+Create file:
+
+code/backend/.env  
+
+Add:
+
+DB_HOST=localhost  
+DB_NAME=chronocampus  
+DB_USER=your_postgres_username  
+DB_PASSWORD=your_postgres_password  
+
+---
+
+### 5. Run Backend Server
+
+python app.py  
+
+Expected output:
+
+Running on http://127.0.0.1:5000/  
+
+---
+
+### 6. Run Frontend
+### That's All.
+
+# Contribution's-ChronoCampus – Room Visibility and Availability Module  
+### Member 2 (Thanush V.)
 
 ## Overview
 
