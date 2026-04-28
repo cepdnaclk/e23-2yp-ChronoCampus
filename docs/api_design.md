@@ -161,9 +161,8 @@ Updates a user's password after verifying the old one. Validates new password st
 | `401` | `"Old password incorrect"` |
 | `404` | `"User not found or inactive"` |
 
+# **Note:** This endpoint is implemented in the backend but not yet connected to a frontend page.
 ---
-## **Note:** This endpoint is implemented in the backend but not yet connected to a frontend page.
-
 ## User Management Endpoints (Admin Only)
 
 > All endpoints below require an active session with `role = "admin"`.  
@@ -208,9 +207,8 @@ Sets `is_active = FALSE` for the specified user. Deactivated users cannot log in
 |--------|---------------|
 | `404` | `"User not found"` |
 
+# **Note:** This endpoint is implemented in the backend but not yet connected to a frontend page.
 ---
-## **Note:** This endpoint is implemented in the backend but not yet connected to a frontend page.
-
 ### 7. Activate User
 **`PUT /users/<user_id>/activate`**
 
@@ -230,9 +228,8 @@ Sets `is_active = TRUE` for the specified user, restoring login access.
 |--------|---------------|
 | `404` | `"User not found"` |
 
+# **Note:** This endpoint is implemented in the backend but not yet connected to a frontend page.
 ---
-## **Note:** This endpoint is implemented in the backend but not yet connected to a frontend page.
-
 ## API Summary Table
 
 | Method | Endpoint | Description | Auth Required | Role |
