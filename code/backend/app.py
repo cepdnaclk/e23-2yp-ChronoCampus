@@ -1,33 +1,36 @@
-<<<<<<< HEAD
-from flask import Flask, jsonify, request
+# Setup & Database Connection (Creates Flask app, Connects to PostgreSQL database)
+from flask import Flask, jsonify, render_template, request, send_from_directory
 from flask_cors import CORS
 from datetime import datetime, time
-import psycopg2
+import psycopg2, os
 from dotenv import load_dotenv
-import os
-
 load_dotenv()
-# =========================
-# CREATE FLASK APP
-# =========================
-app = Flask(__name__)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, '..', 'frontend'),
+    static_folder=os.path.join(BASE_DIR, '..', 'frontend')
+)
 CORS(app)
+app.secret_key = os.getenv("SECRET_KEY")
 
 # =========================
 # DATABASE CONNECTION
 # =========================
 def get_db_connection():
-    conn = psycopg2.connect(
+    return psycopg2.connect(
         host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),   # change this
-        user=os.getenv("DB_USER"),            # user "postgres"
-        password=os.getenv("DB_PASSWORD")         # password "kali"
+        database=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD")
     )
-    return conn
+
 # Home Page
 @app.route("/")
 def home():
-    return "ChronoCampus Backend Running"
+    return render_template("home.html")
 
 # =========================
 # API 01 - CURRENT STATUS
@@ -132,52 +135,11 @@ def daily_schedule():
 def search_room():
     name = request.args.get("name")
     date = request.args.get("date")
-=======
-# Setup & Database Connection (Creates Flask app, Connects to PostgreSQL database)
-from flask import Flask, jsonify, render_template, request
-import psycopg2, os
-from dotenv import load_dotenv
-from flask import send_from_directory
-load_dotenv()
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-app = Flask(
-    __name__,
-    template_folder=os.path.join(BASE_DIR, '..', 'frontend'),
-    static_folder=os.path.join(BASE_DIR, '..', 'frontend')
-)
-app.secret_key = os.getenv("SECRET_KEY")
-
-# DB CONNECTION
-def get_db_connection():
-    return psycopg2.connect(
-        host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD")
-    )
-
-#Loads HOME PAGE UI
-@app.route("/")
-def home():
-    return render_template("home.html")
-
-#Loads DIRECTORY PAGE UI
-@app.route("/directory")
-def directory():
-    return render_template("directory.html")
-
-# GET ALL USERS (API)
-@app.route("/api/users")
-def get_users():
->>>>>>> Paveenan-M04-Notification-and-Staff-Module
 
     conn = get_db_connection()
     cur = conn.cursor()
 
     cur.execute("""
-<<<<<<< HEAD
         SELECT id, room_name
         FROM rooms
         WHERE room_name ILIKE %s
@@ -211,7 +173,27 @@ def get_users():
             "room_id": room_id,
             "room_name": room_name,
             "bookings": booking_list
-=======
+        })
+
+    cur.close()
+    conn.close()
+
+    return jsonify(result)
+
+
+#Loads DIRECTORY PAGE UI
+@app.route("/directory")
+def directory():
+    return render_template("directory.html")
+
+# GET ALL USERS (API)
+@app.route("/api/users")
+def get_users():
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
     SELECT 
         COALESCE(f.user_id, u.user_id) AS user_id,
         COALESCE(f.username, u.full_name) AS username,
@@ -249,15 +231,13 @@ def get_users():
             "location": r[4],
             "image": r[5],
             "email": r[6]
->>>>>>> Paveenan-M04-Notification-and-Staff-Module
         })
 
     cur.close()
     conn.close()
 
-<<<<<<< HEAD
-    return jsonify(result)
-
+    return jsonify(users)
+    
 
 # =========================
 # API 04 - ROOM AVAILABILITY
@@ -269,8 +249,48 @@ def room_availability():
 
     working_start = time(8, 0)
     working_end = time(17, 0)
-=======
-    return jsonify(users)
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT start_time, end_time
+        FROM reservations
+        WHERE room_id = %s
+        AND date = %s
+        ORDER BY start_time
+    """, (room_id, date))
+
+    bookings = cur.fetchall()
+
+    free_slots = []
+    current_pointer = working_start
+
+    for booking in bookings:
+        start, end = booking
+
+        if start > current_pointer:
+            free_slots.append({
+                "start": str(current_pointer),
+                "end": str(start)
+            })
+
+        current_pointer = max(current_pointer, end)
+
+    if current_pointer < working_end:
+        free_slots.append({
+            "start": str(current_pointer),
+            "end": str(working_end)
+        })
+    
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "room_id": room_id,
+        "free_slots": free_slots
+    })
+    
 
 # ADMIN PAGE
 @app.route("/admin")
@@ -396,64 +416,21 @@ def staff_profile(staff_id):
 
 @app.route("/api/staff/<int:staff_id>")
 def get_staff(staff_id):
->>>>>>> Paveenan-M04-Notification-and-Staff-Module
 
     conn = get_db_connection()
     cur = conn.cursor()
 
     cur.execute("""
-<<<<<<< HEAD
-        SELECT start_time, end_time
-        FROM reservations
-        WHERE room_id = %s
-        AND date = %s
-        ORDER BY start_time
-    """, (room_id, date))
-
-    bookings = cur.fetchall()
-
-    free_slots = []
-    current_pointer = working_start
-
-    for booking in bookings:
-        start, end = booking
-
-        if start > current_pointer:
-            free_slots.append({
-                "start": str(current_pointer),
-                "end": str(start)
-            })
-
-        current_pointer = max(current_pointer, end)
-
-    if current_pointer < working_end:
-        free_slots.append({
-            "start": str(current_pointer),
-            "end": str(working_end)
-        })
-=======
         SELECT username, department, office_location, profile_image
         FROM find_users
         WHERE user_id = %s
     """, (staff_id,))
 
     r = cur.fetchone()
->>>>>>> Paveenan-M04-Notification-and-Staff-Module
 
     cur.close()
     conn.close()
 
-<<<<<<< HEAD
-    return jsonify({
-        "room_id": room_id,
-        "free_slots": free_slots
-    })
-
-
-# =========================
-# RUN SERVER
-# =========================
-=======
     if not r:
         return jsonify({"error": "Profile not found"}), 404
 
@@ -463,6 +440,7 @@ def get_staff(staff_id):
         "location": r[2],
         "image": r[3]
     })
+
 
 # ---------------- PAGES ----------------
 @app.route("/edit/<int:user_id>")
@@ -480,6 +458,27 @@ def serve_images(filename):
         filename
     )
 
->>>>>>> Paveenan-M04-Notification-and-Staff-Module
+
+@app.route("/current")
+def current_page():
+    return render_template("current.html")
+
+@app.route("/schedule")
+def schedule_page():
+    return render_template("schedule.html")
+
+@app.route("/search")
+def search_page():
+    return render_template("search.html")
+
+@app.route("/availability")
+def availability_page():
+    return render_template("availability.html")
+
+
+# =========================
+# RUN SERVER
+# =========================
+
 if __name__ == "__main__":
     app.run(debug=True)

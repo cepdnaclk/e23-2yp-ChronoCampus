@@ -3,7 +3,7 @@
 
 <head>
     <title>Daily Schedule</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 
             <div id="schedule"></div>
 
-            <button class="back" onclick="window.location.href='index.html'">
+            <button class="back" onclick="window.location.href='/'">
                 Back
             </button>
 
@@ -32,7 +32,7 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 
