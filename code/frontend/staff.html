@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Staff Directory</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <h2>Staff Directory</h2>
+
+    <div id="staffContainer"></div>
+
+    <script>
+
+        fetch("/api/staff")
+            .then(res => res.json())
+            .then(data => {
+
+                const container = document.getElementById("staffContainer");
+
+                data.forEach(s => {
+
+                    container.innerHTML += `
+        <div class="staff-card" onclick="openProfile(${s.id})">
+            <img src="/images/${s.image}">
+            <h3>${s.name}</h3>
+            <p>${s.department}</p>
+        </div>
+        `
+
+                });
+
+            });
+
+        function openProfile(id) {
+            window.location.href = "/staff/" + id
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Panel</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <h2>Admin Management</h2>
+
+    <button onclick="goBack()">⬅ Back</button>
+
+    <input type="text" id="searchInput" placeholder="Search user...">
+
+    <select id="roleFilter">
+        <option value="all">All</option>
+        <option value="staff">Staff</option>
+        <option value="student">Student</option>
+        <option value="admin">Admin</option>
+    </select>
+
+    <h3>User List</h3>
+
+    <div id="adminUserContainer"></div>
+
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+
+</body>
+
+</html>

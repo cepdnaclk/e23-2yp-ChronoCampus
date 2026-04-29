@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Staff Profile</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div id="profile"></div>
+
+    <script>
+
+        const id = {{ staff_id }};
+
+        fetch("/api/staff/" + id)
+            .then(res => res.json())
+            .then(data => {
+
+                document.getElementById("profile").innerHTML = `
+
+<img src="/images/${data.image}" width="150">
+
+<h2>${data.name}</h2>
+
+<p>${data.department}</p>
+
+<p>Location: ${data.location}</p>
+
+`
+
+            });
+
+
+        function updateLocation() {
+
+            const location = document.getElementById("locationInput").value;
+
+            fetch("/api/update_location", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    location: location
+                })
+
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message)
+                })
+
+        }
+
+    </script>
+
+</body>
+
+</html>
