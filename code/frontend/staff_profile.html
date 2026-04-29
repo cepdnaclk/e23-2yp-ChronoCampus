@@ -5,7 +5,7 @@
 
     <title>Staff Profile</title>
 
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -15,7 +15,7 @@
 
     <script>
 
-        const id = { staff_id };
+        const id = {{ staff_id }};
 
         fetch("/api/staff/" + id)
             .then(res => res.json())
@@ -23,7 +23,7 @@
 
                 document.getElementById("profile").innerHTML = `
 
-<img src="/static/${data.image}" width="150">
+<img src="/images/${data.image}" width="150">
 
 <h2>${data.name}</h2>
 

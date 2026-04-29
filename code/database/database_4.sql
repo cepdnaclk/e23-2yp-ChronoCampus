@@ -82,3 +82,6 @@ VALUES
 ('Admin Silva','adminsilva@uni.lk','hashedpass','admin'),
 ('Student Nimal','studentnimal@uni.lk','hashedpass','student'),
 ('Student Kamal','studentkamal@uni.lk','hashedpass','student');
+
+ALTER TABLE users
+ADD COLUMN department VARCHAR(100);

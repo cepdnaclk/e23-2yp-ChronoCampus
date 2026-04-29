@@ -5,7 +5,7 @@
 
     <title>Staff Directory</title>
 
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -27,7 +27,7 @@
 
                     container.innerHTML += `
         <div class="staff-card" onclick="openProfile(${s.id})">
-            <img src="/static/${s.image}">
+            <img src="/images/${s.image}">
             <h3>${s.name}</h3>
             <p>${s.department}</p>
         </div>

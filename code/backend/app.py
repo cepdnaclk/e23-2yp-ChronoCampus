@@ -2,10 +2,16 @@
 from flask import Flask, jsonify, render_template, request
 import psycopg2, os
 from dotenv import load_dotenv
-
+from flask import send_from_directory
 load_dotenv()
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, '..', 'frontend'),
+    static_folder=os.path.join(BASE_DIR, '..', 'frontend')
+)
 app.secret_key = os.getenv("SECRET_KEY")
 
 # DB CONNECTION
@@ -100,9 +106,12 @@ def manage_user():
 
     if image_file:
         filename = image_file.filename
-        save_path = os.path.join("static/images", filename)
+        image_folder = os.path.join(BASE_DIR, '..', 'images')
+        save_path = os.path.join(image_folder, filename)
+
         image_file.save(save_path)
-        image_path = "images/" + filename
+
+        image_path = filename   # store ONLY filename
 
     conn = get_db_connection()
     cur = conn.cursor()
@@ -233,6 +242,13 @@ def edit_page(user_id):
 @app.route("/add")
 def add_page():
     return render_template("add_user.html")
+
+@app.route('/images/<path:filename>')
+def serve_images(filename):
+    return send_from_directory(
+        os.path.join(BASE_DIR, '..', 'images'),
+        filename
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

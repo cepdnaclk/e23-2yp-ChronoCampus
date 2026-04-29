@@ -29,7 +29,7 @@ function displayUsers(users){
         container.innerHTML += `
         <div class="staff-card" onclick="openProfile(${u.id})">
 
-            <img src="/static/${u.image}" width="120">
+            <img src="/images/${u.image}" width="120">
 
             <h3>${u.name}</h3>
 

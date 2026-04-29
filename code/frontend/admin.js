@@ -118,7 +118,7 @@ function displayAdminUsers(users) {
     container.innerHTML += `
     <div class="staff-card">
 
-        <img src="/static/${u.image}" width="100">
+        <img src="/images/${u.image}" width="100">
 
         <h3>${u.name}</h3>
 

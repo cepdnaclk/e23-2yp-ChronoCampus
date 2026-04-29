@@ -5,7 +5,7 @@
 
     <title>Admin Panel</title>
 
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -28,7 +28,7 @@
 
     <div id="adminUserContainer"></div>
 
-    <script src="/static/admin.js"></script>
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
 
 </body>
 
