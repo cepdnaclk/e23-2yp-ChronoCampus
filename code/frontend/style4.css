@@ -38,20 +38,20 @@ border-radius:5px;
 }
 
 .staff-card{
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    width:200px;
-    padding:15px;
-    border-radius:12px;
-    box-shadow:0 0 15px rgba(0,0,0,0.5);
-    cursor:pointer;
-    transition:0.3s;
+    background: rgba(255,255,255,0.08);   /* brighter than before */
+    backdrop-filter: blur(12px);
+    padding:20px;
+    border-radius:16px;
     text-align:center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.1);  /* subtle border */
+    transition:0.3s;
 }
 
 .staff-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 0 20px rgba(0,198,255,0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(0,198,255,0.4);
+    border:1px solid rgba(0,198,255,0.5);
 }
 
 .staff-card img{
@@ -60,6 +60,7 @@ border-radius:5px;
     border-radius:50%;
     object-fit:cover;
     border:2px solid #00c6ff;
+    box-shadow: 0 0 10px rgba(0,198,255,0.5);
     margin-bottom:10px;
 }
 
@@ -71,6 +72,30 @@ border-radius:5px;
 .staff-card p{
     color:#ccc;
     font-size:14px;
+}
+
+.staff-card button{
+    padding:8px 14px;
+    border:none;
+    border-radius:8px;
+    margin:5px;
+    cursor:pointer;
+}
+
+/* Update button */
+.staff-card button:first-of-type{
+    background:#00c6ff;
+    color:black;
+}
+
+/* Delete button */
+.staff-card button:last-of-type{
+    background:#ff4d4d;
+    color:white;
+}
+
+#adminUserContainer{
+    padding-top:30px;
 }
 
 input, select{
@@ -89,15 +114,12 @@ border-radius:6px;
 cursor:pointer;
 }
 
-.back-btn:hover{
-background:#2980b9;
-}
 
 /* FORM CONTAINER */
 .form-container{
     width:350px;
     margin:40px auto;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.634);
     backdrop-filter: blur(10px);
     padding:20px;
     border-radius:12px;
@@ -121,9 +143,21 @@ background:#2980b9;
 /* INPUT */
 .form-group input,
 .form-group select{
+    background: rgba(255,255,255,0.1);
+    border:1px solid #00c6ff;
+    color:white;
     padding:8px;
     border-radius:6px;
-    border:1px solid #ccc;
+}
+.form-group select option{
+    background:#0b1a2b;
+    color:white;
+}
+.form-group input{
+    color:white;
+}
+.form-group input::placeholder{
+    color:#ccc;
 }
 
 /* BUTTONS */
@@ -189,5 +223,43 @@ background:#2980b9;
 }
 
 button{
-    margin:10px;
+    padding:10px 20px;
+    border-radius:12px;
+    border:none;
+    background:#d1d5db;   /* light gray */
+    color:#111;           /* dark text */
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#00c6ff;   /* darker gray on hover */
+}
+
+#roleFilter{
+    background: rgba(255,255,255,0.1);
+    border:1px solid #00c6ff;
+    color:white;
+    padding:10px;
+    border-radius:8px;
+}
+
+#roleFilter option{
+    background:#0b1a2b;   /* dark background */
+    color:white;          /* visible text */
+}
+
+#searchInput{
+    background: rgba(255,255,255,0.1);
+    border:1px solid #00c6ff;
+    color:white;
+}
+
+.top-controls{
+    display:flex;
+    justify-content:center;   /* center horizontally */
+    align-items:center;
+    gap:20px;                 /* space between items */
+    margin-top:20px;
 }
