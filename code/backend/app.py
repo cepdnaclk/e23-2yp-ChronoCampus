@@ -30,7 +30,7 @@ def get_db_connection():
 # Home Page
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("index.html")
 
 # =========================
 # API 01 - CURRENT STATUS
