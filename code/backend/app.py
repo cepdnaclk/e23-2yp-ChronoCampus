@@ -1,9 +1,24 @@
+
 # Setup & Database Connection (Creates Flask app, Connects to PostgreSQL database)
 from flask import Flask, jsonify, render_template, request, send_from_directory
 from flask_cors import CORS
 from datetime import datetime, time
 import psycopg2, os
 from dotenv import load_dotenv
+
+from config import Config
+from database import db
+from models.room import Room
+from models.reservation import Reservation
+from models.override_request import OverrideRequest
+from models.notification import Notification
+from models.watchlist import RoomWatchlist
+from models.waitlist import RoomWaitlistQueue as RoomWaitlist
+from models.users import User
+from routes.reservation_routes import reservation_bp
+from routes.watchlist_routes import watchlist_bp
+from routes.auth_routes import auth_bp
+
 load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -13,8 +28,25 @@ app = Flask(
     template_folder=os.path.join(BASE_DIR, '..', 'frontend'),
     static_folder=os.path.join(BASE_DIR, '..', 'frontend')
 )
-CORS(app)
+
 app.secret_key = os.getenv("SECRET_KEY")
+
+app.config.from_object(Config)
+CORS(app, supports_credentials=True)
+
+
+db.init_app(app)
+
+
+with app.app_context():
+    db.create_all()
+    print("✅ Tables ready!")
+    print("✅ DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
+
+
+app.register_blueprint(reservation_bp)
+app.register_blueprint(watchlist_bp)
+app.register_blueprint(auth_bp)
 
 # =========================
 # DATABASE CONNECTION
@@ -485,9 +517,7 @@ def availability_page():
     return render_template("availability.html")
 
 
-# =========================
-# RUN SERVER
-# =========================
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
+

@@ -1,3 +1,4 @@
+
 # Python
 __pycache__/
 *.pyc
@@ -7,3 +8,14 @@ code/backend/venv/
 
 # Environment variables
 code/backend/.env
+
+backend/.env
+.env
+
+*.db
+
+code/.env
+code/venv/
+
+*.sqlite3
+code/node_modules/

@@ -1,37 +1,252 @@
 <!DOCTYPE html>
-<html>
 
+<html lang="en">
 <head>
-
-    <title>Admin Panel</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='style4.css') }}">
-
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChronoCampus — Admin</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/admin.css"/>
 </head>
-
 <body>
+<div class="bg-layer"></div>
+<div class="grid-overlay"></div>
 
-    <h2>Admin Management</h2>
+<div class="admin-shell">
 
-    <div class="top-controls">
+  <!-- ── Sidebar ────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🏛️</div>
+      <div>
+        <div class="logo-text">Chrono<span>Campus</span></div>
+        <div class="logo-sub">Admin Panel</div>
+      </div>
+    </div>
 
-    <button onclick="goBack()" class="back-btn">⬅ Back</button>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-section="overview">
+        <span class="nav-icon">📊</span> Overview
+      </button>
+      <button class="nav-item" data-section="reservations">
+        <span class="nav-icon">📋</span> Reservations
+      </button>
+      <button class="nav-item" data-section="users">
+        <span class="nav-icon">👥</span> Users
+      </button>
+      <button class="nav-item" data-section="overrides">
+        <span class="nav-icon">⚠️</span> Overrides
+        <span class="nav-badge gold" id="overrideBadge" style="display:none"></span>
+      </button>
+      <button class="nav-item" data-section="watchlist">
+        <span class="nav-icon">👁</span> Watchlist
+      </button>
+      <button class="nav-item" data-section="waitlist">
+        <span class="nav-icon">🎯</span> Waitlist Queue
+      </button>
+    </nav>
 
-    <input type="text" id="searchInput" placeholder="Search user...">
+    <div class="sidebar-footer">
+      <div class="admin-profile">
+        <div class="avatar admin-avatar" id="adminAvatar">AD</div>
+        <div>
+          <div class="admin-name" id="adminName">Admin</div>
+          <div class="admin-role-label">Administrator</div>
+        </div>
+      </div>
+      <button class="logout-btn" style="width:100%;margin-top:0.5rem" onclick="Auth.logout()">Logout</button>
+    </div>
+  </aside>
 
-    <select id="roleFilter">
-        <option value="all">All</option>
-        <option value="staff">Staff</option>
-        <option value="student">Student</option>
-        <option value="admin">Admin</option>
-    </select>
+  <!-- ── Main content ───────────────────────────────────────── -->
+  <div class="admin-content">
 
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div>
+        <div class="page-title" id="pageTitle">Overview</div>
+        <div class="page-subtitle">ChronoCampus Admin Dashboard</div>
+      </div>
+      <button class="refresh-btn" onclick="refreshAll()">↻ Refresh</button>
+    </div>
+
+    <main class="admin-main">
+
+      <!-- ══ OVERVIEW ══════════════════════════════════════════ -->
+      <section class="admin-section active" id="section-overview">
+        <div class="overview-grid">
+          <div class="stat-card blue">
+            <div class="stat-label">Total Reservations</div>
+            <div class="stat-value" id="ovTotal">—</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-label">Pending Approval</div>
+            <div class="stat-value" id="ovPending">—</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Approved</div>
+            <div class="stat-value" id="ovApproved">—</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value" id="ovUsers">—</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Pending Overrides</div>
+            <div class="stat-value" id="ovOverrides">—</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-label">Watchlist Entries</div>
+            <div class="stat-value" id="ovWatchlist">—</div>
+          </div>
+          <div class="stat-card purple">
+            <div class="stat-label">Queue Members</div>
+            <div class="stat-value" id="ovWaitlist">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ RESERVATIONS ══════════════════════════════════════ -->
+      <section class="admin-section" id="section-reservations">
+        <div class="section-header">
+          <div>
+            <div class="section-title">All Reservations</div>
+            <div class="section-sub">Approve, reject or cancel bookings</div>
+          </div>
+          <div class="search-bar">
+            <div class="search-input-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="resSearch" class="form-input" placeholder="Search…"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-tabs" id="resFilterTabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="pending">Pending</button>
+          <button class="filter-tab" data-filter="approved">Approved</button>
+          <button class="filter-tab" data-filter="rejected">Rejected</button>
+          <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+        </div>
+
+        <div class="admin-table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>User</th>
+                  <th>Room</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="resTbody">
+                <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ USERS ═════════════════════════════════════════════ -->
+      <section class="admin-section" id="section-users">
+        <div class="section-header">
+          <div>
+            <div class="section-title">User Management</div>
+            <div class="section-sub">Activate or deactivate user accounts</div>
+          </div>
+        </div>
+        <div class="user-cards" id="userCards">
+          <div style="text-align:center;padding:2rem;color:var(--muted)">Loading…</div>
+        </div>
+      </section>
+
+      <!-- ══ OVERRIDE REQUESTS ══════════════════════════════════ -->
+      <section class="admin-section" id="section-overrides">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Override Requests</div>
+            <div class="section-sub">Lecturer vs student booking conflicts</div>
+          </div>
+        </div>
+        <div class="override-cards" id="overrideCards">
+          <div style="text-align:center;padding:2rem;color:var(--muted)">Loading…</div>
+        </div>
+      </section>
+
+      <!-- ══ WATCHLIST ══════════════════════════════════════════ -->
+      <section class="admin-section" id="section-watchlist">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Watchlist</div>
+            <div class="section-sub">Users watching rooms for availability</div>
+          </div>
+        </div>
+        <div class="admin-table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Room</th>
+                  <th>Date</th>
+                  <th>Time Slot</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="watchTbody">
+                <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ WAITLIST QUEUE ══════════════════════════════════════ -->
+      <section class="admin-section" id="section-waitlist">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Waitlist Queue</div>
+            <div class="section-sub">Users queued for room slots</div>
+          </div>
+        </div>
+        <div class="admin-table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Position</th>
+                  <th>User</th>
+                  <th>Room</th>
+                  <th>Date</th>
+                  <th>Time Slot</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="waitTbody">
+                <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
 </div>
 
-    <div id="adminUserContainer"></div>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
-    <script src="{{ url_for('static', filename='admin.js') }}"></script>
-
+<!-- ── Scripts ─────────────────────────────────────────────────── -->
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
 </body>
 
 </html>

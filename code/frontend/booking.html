@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChronoCampus — Book a Room</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/booking.css"/>
+  <link rel="stylesheet" href="css/datepicker.css"/>
+</head>
+<body>
+<div class="bg-layer"></div>
+<div class="grid-overlay"></div>
+<div class="page-wrap">
+
+  <!-- ── Navbar ─────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-icon">🏛️</div>
+      <div>
+        <div class="logo-text">Chrono<span>Campus</span></div>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="booking.html" class="active">Book a Room</a></li>
+      <li><a href="my_reservations.html">My Reservations</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="notif-bell" id="notifBell" title="Notifications">
+        🔔<span class="notif-dot" id="notifDot"></span>
+      </button>
+      <div class="nav-user">
+        <span id="navUserName">—</span>
+        <div class="avatar" id="navAvatar">—</div>
+        <button class="logout-btn" onclick="Auth.logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Notification panel ─────────────────────────────────── -->
+  <div class="notif-panel" id="notifPanel">
+    <div class="notif-panel-header">
+      <span class="notif-panel-title">🔔 Notifications</span>
+      <button class="notif-mark-all" onclick="Notifications.markAllRead()">Mark all read</button>
+    </div>
+    <div class="notif-list" id="notifList">
+      <div class="notif-empty">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ── Main ───────────────────────────────────────────────── -->
+  <main>
+    <div class="booking-layout anim-fade-up">
+
+      <!-- Form card -->
+      <div class="card card-pad-lg">
+        <div class="form-header">
+          <span class="badge badge-blue">New Request</span>
+          <h1>Reserve a Room</h1>
+          <p>Book a room, watch it, or join the waitlist queue if it's taken.</p>
+        </div>
+
+        <form id="bookingForm">
+          <div class="form-grid">
+
+            <!-- Room select -->
+            <div class="form-group form-col-full">
+              <label class="form-label">Room</label>
+              <div class="field-wrap">
+                <span class="field-icon">🏫</span>
+                <select id="roomSelect" class="form-select" required disabled>
+                  <option value="" disabled selected>Loading rooms…</option>
+                </select>
+                <span class="field-icon-right">▾</span>
+              </div>
+              <span class="form-hint" id="roomHint">⏳ Connecting to server…</span>
+            </div>
+
+            <!-- Time slot — custom date/time pickers -->
+            <div class="form-group form-col-full">
+              <label class="form-label">Time Slot</label>
+              <div class="dt-row">
+                <div>
+                  <div class="form-label" style="margin-bottom:0.35rem;font-size:0.7rem">Start</div>
+                  <div id="startPickerContainer"></div>
+                </div>
+                <div>
+                  <div class="form-label" style="margin-bottom:0.35rem;font-size:0.7rem">End</div>
+                  <div id="endPickerContainer"></div>
+                </div>
+              </div>
+              <div class="duration-pill" id="durationPill">⏱ <span id="durationText"></span></div>
+              <div class="form-hint" style="margin-top:0.4rem">
+                ⚠ Must book 3+ hours in advance · Max 6 hours duration · Within 7 days from today
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Alert + smart suggestion (Feature 3) -->
+          <div class="alert" id="alertBox">
+            <div class="alert-row">
+              <span>⚠️</span>
+              <span id="alertMsg"></span>
+            </div>
+            <div class="suggestion-banner" id="suggestionBanner">
+              <div class="suggestion-info">
+                <strong id="suggestionName"></strong>
+                <span id="suggestionDetail"></span>
+              </div>
+              <button type="button" class="btn btn-sm btn-green" onclick="bookSuggestion()">Book This Instead →</button>
+            </div>
+          </div>
+
+          <!-- Queue info message (shown when room is booked) -->
+          <div id="queueInfoMsg" style="display:none;font-size:0.78rem;color:#d8b4fe;margin-top:0.5rem;padding:0.5rem 0.75rem;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:8px;"></div>
+
+          <!-- Action buttons -->
+          <div class="action-group" id="actionGroup">
+            <button type="submit" class="btn btn-lg btn-primary" id="submitBtn">📋 Book Room</button>
+            <button type="button" class="btn btn-lg btn-outline-gold" onclick="openWatchModal()">👁 Watch Room</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── Sidebar ───────────────────────────────────────── -->
+      <div class="booking-sidebar">
+
+        <!-- Room preview -->
+        <div class="card card-pad anim-fade-up-1">
+          <div class="panel-header">
+            <span class="panel-title">Room Preview</span>
+            <span class="room-status-dot dot-unknown" id="roomStatus">—</span>
+          </div>
+          <div class="room-visual"><span id="roomEmoji">🏫</span></div>
+          <div id="roomDetails"><p class="room-placeholder">Select a room to see details</p></div>
+        </div>
+
+        <!-- My Watchlist -->
+        <div class="card card-pad-sm anim-fade-up-2">
+          <div class="panel-header">
+            <span class="panel-title">👁 My Watchlist</span>
+          </div>
+          <div class="scroll-panel" id="watchlistPanel">
+            <div class="panel-empty">Loading…</div>
+          </div>
+        </div>
+
+        <!-- My Queue (Feature 15) -->
+        <div class="card card-pad-sm anim-fade-up-3">
+          <div class="panel-header">
+            <span class="panel-title">🎯 My Queue</span>
+          </div>
+          <div class="scroll-panel" id="queuePanel">
+            <div class="panel-empty">Loading…</div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="card card-pad-sm anim-fade-up-4">
+          <div class="panel-header">
+            <span class="panel-title">Booking Guidelines</span>
+          </div>
+          <div class="tip-list">
+            <div class="tip-item">
+              <div class="tip-dot"></div>
+              <p class="tip-text">Bookings stay <strong>pending</strong> until approved by admin.</p>
+            </div>
+            <div class="tip-item">
+              <div class="tip-dot"></div>
+              <p class="tip-text"><strong>Watch Room</strong> — get notified when a room becomes free.</p>
+            </div>
+            <div class="tip-item">
+              <div class="tip-dot"></div>
+              <p class="tip-text"><strong>Join Queue</strong> — secure your spot. #1 gets priority when room frees up.</p>
+            </div>
+            <div class="tip-item">
+              <div class="tip-dot"></div>
+              <p class="tip-text">Staff can override student bookings via an override request.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ── Modals ──────────────────────────────────────────────────── -->
+
+<!-- Booking success -->
+<div class="overlay" id="successModal">
+  <div class="modal modal-green">
+    <div class="modal-icon icon-success">✓</div>
+    <h2>Request Submitted!</h2>
+    <p>Your booking is pending admin approval. You'll be notified once the status changes.</p>
+    <div class="modal-id" id="successId">Reservation #—</div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="closeModal('successModal')">Back to Booking</button>
+    </div>
+  </div>
+</div>
+
+<!-- Watch confirm -->
+<div class="overlay" id="watchModal">
+  <div class="modal modal-gold">
+    <div class="modal-icon icon-gold">👁</div>
+    <h2>Watch This Room?</h2>
+    <p id="watchModalMsg">You'll be notified when this room becomes available for the selected slot.</p>
+    <div class="modal-btns">
+      <button class="btn btn-gold" id="watchConfirmBtn" onclick="confirmWatch()">Yes, Watch It</button>
+      <button class="btn btn-ghost" onclick="closeModal('watchModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Watch success -->
+<div class="overlay" id="watchSuccessModal">
+  <div class="modal modal-gold">
+    <div class="modal-icon icon-gold">✓</div>
+    <h2>Now Watching!</h2>
+    <p id="watchSuccessMsg">We'll notify you when this slot opens up.</p>
+    <div class="modal-btns">
+      <button class="btn btn-gold" onclick="closeModal('watchSuccessModal')">Got It</button>
+    </div>
+  </div>
+</div>
+
+<!-- Queue confirm (Feature 15) -->
+<div class="overlay" id="queueModal">
+  <div class="modal modal-purple">
+    <div class="modal-icon icon-purple">🎯</div>
+    <h2>Join the Queue?</h2>
+    <p id="queueModalMsg">You'll be added to the waitlist and notified when it's your turn.</p>
+    <div class="modal-btns">
+      <button class="btn btn-purple" id="queueConfirmBtn" onclick="confirmQueue()">Join Queue</button>
+      <button class="btn btn-ghost" onclick="closeModal('queueModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Queue success (Feature 15) -->
+<div class="overlay" id="queueSuccessModal">
+  <div class="modal modal-purple">
+    <div class="modal-icon icon-purple">✓</div>
+    <h2>You're in the Queue!</h2>
+    <p id="queueSuccessMsg">We'll notify you the moment you reach #1 and the room is available.</p>
+    <div class="modal-badge" id="queuePosition">📋 Position #—</div>
+    <div class="modal-btns">
+      <button class="btn btn-purple" onclick="closeModal('queueSuccessModal')">Got It</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ── Scripts ─────────────────────────────────────────────────── -->
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/datepicker.js"></script>
+<script src="js/booking.js"></script>
+</body>
+</html>

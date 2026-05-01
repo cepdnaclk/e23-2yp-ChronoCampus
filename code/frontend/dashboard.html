@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChronoCampus — Loading</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <style>
+    body { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+    .loader { text-align:center; }
+    .loader-logo { font-family:var(--font-display); font-size:2rem; margin-bottom:1rem; }
+    .loader-logo span { color:var(--gold); }
+    .spinner {
+      width:32px; height:32px;
+      border:3px solid rgba(255,255,255,0.1);
+      border-top-color:var(--blue-400);
+      border-radius:50%;
+      animation:spin 0.7s linear infinite;
+      margin:0 auto 1rem;
+    }
+    .loader-text { font-size:0.875rem; color:var(--muted); }
+  </style>
+</head>
+<body>
+<div class="bg-layer"></div>
+<div class="grid-overlay"></div>
+<div class="loader">
+  <div class="loader-logo">Chrono<span>Campus</span></div>
+  <div class="spinner"></div>
+  <div class="loader-text" id="loaderText">Loading your session…</div>
+</div>
+
+<script>
+  (function () {
+    const userId   = sessionStorage.getItem("user_id");
+    const role     = sessionStorage.getItem("role");
+    const userName = sessionStorage.getItem("user_name") || "User";
+
+    if (!userId || !role) {
+      document.getElementById("loaderText").textContent = "No session found. Redirecting to login…";
+      setTimeout(() => window.location.href = "login.html", 1200);
+      return;
+    }
+
+    document.getElementById("loaderText").textContent = `Welcome back, ${userName}!`;
+
+    setTimeout(() => {
+      window.location.href = role === "admin" ? "admin.html" : "booking.html";
+    }, 500);
+  })();
+</script>
+</body>
+</html>
