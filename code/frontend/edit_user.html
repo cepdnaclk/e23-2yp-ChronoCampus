@@ -54,14 +54,19 @@
 
 <script>
 
-const id = {{ user_id }};
+const id = "{{ user_id }}";
 
 // LOAD USER DATA
 fetch("/api/users")
 .then(res => res.json())
 .then(data => {
 
-    const user = data.find(u => u.id === id);
+    const user = data.find(u => u.id == id);
+
+    if(!user){
+        console.log("User not found");
+        return;
+    }
 
     document.getElementById("username").value = user.name;
     document.getElementById("email").value = user.email || "";

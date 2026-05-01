@@ -35,14 +35,13 @@ def home():
 # =========================
 # API 01 - CURRENT STATUS
 # =========================
+
 @app.route("/rooms/current-status", methods=["GET"])
 def current_status():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    now = datetime.now().time().replace(second=0, microsecond=0)
-
-    cur.execute("SELECT id, room_name FROM rooms")
+    cur.execute("SELECT room_id, room_name FROM rooms")
     rooms = cur.fetchall()
 
     result = []
@@ -54,9 +53,9 @@ def current_status():
             SELECT start_time, end_time
             FROM reservations
             WHERE room_id = %s
-            AND date = CURRENT_DATE
-            AND %s BETWEEN start_time AND end_time
-        """, (room_id, now))
+            AND reservation_date = CURRENT_DATE
+            AND CURRENT_TIMESTAMP BETWEEN start_time AND end_time
+        """, (room_id,))
 
         booking = cur.fetchone()
 
@@ -91,7 +90,7 @@ def daily_schedule():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    cur.execute("SELECT id, room_name FROM rooms")
+    cur.execute("SELECT room_id, room_name FROM rooms")
     rooms = cur.fetchall()
 
     output = []
@@ -103,7 +102,7 @@ def daily_schedule():
             SELECT start_time, end_time
             FROM reservations
             WHERE room_id = %s
-            AND date = %s
+            AND reservation_date = %s
             ORDER BY start_time
         """, (room_id, date))
 
@@ -140,7 +139,7 @@ def search_room():
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT id, room_name
+        SELECT room_id, room_name
         FROM rooms
         WHERE room_name ILIKE %s
     """, (f"%{name}%",))
@@ -156,7 +155,7 @@ def search_room():
             SELECT start_time, end_time
             FROM reservations
             WHERE room_id = %s
-            AND date = %s
+            AND reservation_date = %s
             ORDER BY start_time
         """, (room_id, date))
 
@@ -186,12 +185,15 @@ def search_room():
 def directory():
     return render_template("directory.html")
 
+
 # GET ALL USERS (API)
 @app.route("/api/users")
 def get_users():
 
+
     conn = get_db_connection()
     cur = conn.cursor()
+
 
     cur.execute("""
     SELECT 
@@ -205,7 +207,9 @@ def get_users():
     FROM users u
     LEFT JOIN find_users f ON u.user_id = f.user_id
 
+
     UNION
+
 
     SELECT 
         f.user_id,
@@ -219,7 +223,9 @@ def get_users():
     WHERE f.user_id NOT IN (SELECT user_id FROM users)
     """)
 
+
     rows = cur.fetchall()
+
 
     users = []
     for r in rows:
@@ -233,22 +239,25 @@ def get_users():
             "email": r[6]
         })
 
+
     cur.close()
     conn.close()
 
+
     return jsonify(users)
-    
+
 
 # =========================
 # API 04 - ROOM AVAILABILITY
 # =========================
+
 @app.route("/rooms/availability", methods=["GET"])
 def room_availability():
     room_id = request.args.get("room_id")
     date = request.args.get("date")
 
-    working_start = time(8, 0)
-    working_end = time(17, 0)
+    working_start = datetime.strptime(date + " 08:00:00", "%Y-%m-%d %H:%M:%S")
+    working_end = datetime.strptime(date + " 17:00:00", "%Y-%m-%d %H:%M:%S")
 
     conn = get_db_connection()
     cur = conn.cursor()
@@ -257,7 +266,7 @@ def room_availability():
         SELECT start_time, end_time
         FROM reservations
         WHERE room_id = %s
-        AND date = %s
+        AND reservation_date = %s
         ORDER BY start_time
     """, (room_id, date))
 
@@ -282,7 +291,7 @@ def room_availability():
             "start": str(current_pointer),
             "end": str(working_end)
         })
-    
+
     cur.close()
     conn.close()
 
@@ -290,7 +299,7 @@ def room_availability():
         "room_id": room_id,
         "free_slots": free_slots
     })
-    
+
 
 # ADMIN PAGE
 @app.route("/admin")
