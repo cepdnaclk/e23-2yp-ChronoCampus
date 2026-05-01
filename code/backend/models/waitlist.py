@@ -2,7 +2,7 @@ from database import db
 from datetime import datetime
 
 
-class RoomWaitlist(db.Model):
+class RoomWaitlistQueue(db.Model):
     __tablename__ = "room_waitlist"
 
     waitlist_id      = db.Column(db.Integer, primary_key=True, autoincrement=True)

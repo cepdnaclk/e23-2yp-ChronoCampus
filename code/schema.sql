@@ -1,4 +1,4 @@
---
+/*--
 -- PostgreSQL database dump
 --
 
@@ -580,5 +580,145 @@ ALTER TABLE ONLY public.room_watchlist
 -- PostgreSQL database dump complete
 --
 
-\unrestrict z5lNYWY9oSneemmm7e66nd3quHV33HDX4F9DhLQfj2o51NDhILTaaUYqP3BZbqP
+\unrestrict z5lNYWY9oSneemmm7e66nd3quHV33HDX4F9DhLQfj2o51NDhILTaaUYqP3BZbqP*/
+
+-- =====================================================
+-- ChronoCampus Database Setup
+-- PostgreSQL
+-- Run this in pgAdmin4 Query Tool on chronocampus_db
+-- =====================================================
+
+-- Drop all tables (safe reset for development)
+DROP TABLE IF EXISTS canceled_reservations CASCADE;
+DROP TABLE IF EXISTS notifications CASCADE;
+DROP TABLE IF EXISTS room_waitlist CASCADE;
+DROP TABLE IF EXISTS room_watchlist CASCADE;
+DROP TABLE IF EXISTS override_requests CASCADE;
+DROP TABLE IF EXISTS reservations CASCADE;
+DROP TABLE IF EXISTS rooms CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
+-- ─────────────────────────────────────────
+-- USERS TABLE
+-- Owned by Member 1 (auth/login module)
+-- Includes department column from their schema
+-- ─────────────────────────────────────────
+CREATE TABLE users (
+    user_id            SERIAL PRIMARY KEY,
+    full_name          VARCHAR(100) NOT NULL,
+    email              VARCHAR(150) UNIQUE NOT NULL,
+    password_hash      TEXT NOT NULL,
+    role               VARCHAR(20) NOT NULL CHECK (role IN ('student', 'staff', 'admin')),
+    department         VARCHAR(100) NOT NULL,
+    is_active          BOOLEAN DEFAULT TRUE,
+    email_verified     BOOLEAN DEFAULT FALSE,
+    verification_token TEXT,
+    created_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_users_email ON users(email);
+
+-- Only seed the admin user — students and staff register via signup page
+-- Password '123' is plain text for development; member 1 will handle hashing in production
+
+
+-- ─────────────────────────────────────────
+-- ROOMS TABLE
+-- ─────────────────────────────────────────
+CREATE TABLE rooms (
+    room_id    SERIAL PRIMARY KEY,
+    room_name  VARCHAR(100) NOT NULL,
+    capacity   INTEGER NOT NULL,
+    location   VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ─────────────────────────────────────────
+-- RESERVATIONS TABLE
+-- ─────────────────────────────────────────
+CREATE TABLE reservations (
+    reservation_id   SERIAL PRIMARY KEY,
+    user_id          INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    room_id          INTEGER NOT NULL REFERENCES rooms(room_id) ON DELETE CASCADE,
+    reservation_date DATE NOT NULL,
+    start_time       TIMESTAMP NOT NULL,
+    end_time         TIMESTAMP NOT NULL,
+    status           VARCHAR(20) DEFAULT 'pending'
+                     CHECK (status IN ('pending', 'approved', 'rejected', 'cancelled')),
+    created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ─────────────────────────────────────────
+-- OVERRIDE REQUESTS TABLE
+-- ─────────────────────────────────────────
+CREATE TABLE override_requests (
+    request_id     SERIAL PRIMARY KEY,
+    reservation_id INTEGER NOT NULL REFERENCES reservations(reservation_id) ON DELETE CASCADE,
+    lecturer_id    INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    student_id     INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    status         VARCHAR(20) DEFAULT 'pending'
+                   CHECK (status IN ('pending', 'accepted', 'rejected')),
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ─────────────────────────────────────────
+-- ROOM WATCHLIST TABLE
+-- ─────────────────────────────────────────
+CREATE TABLE room_watchlist (
+    watch_id         SERIAL PRIMARY KEY,
+    user_id          INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    room_id          INTEGER NOT NULL REFERENCES rooms(room_id) ON DELETE CASCADE,
+    reservation_date DATE NOT NULL,
+    start_time       TIMESTAMP NOT NULL,
+    end_time         TIMESTAMP NOT NULL,
+    created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ─────────────────────────────────────────
+-- NOTIFICATIONS TABLE
+-- ─────────────────────────────────────────
+CREATE TABLE notifications (
+    notification_id SERIAL PRIMARY KEY,
+    user_id         INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    message         TEXT NOT NULL,
+    is_read         BOOLEAN DEFAULT FALSE,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ─────────────────────────────────────────
+-- CANCELED RESERVATIONS TABLE
+-- ─────────────────────────────────────────
+CREATE TABLE canceled_reservations (
+    cancel_id      SERIAL PRIMARY KEY,
+    reservation_id INTEGER NOT NULL REFERENCES reservations(reservation_id) ON DELETE CASCADE,
+    canceled_by    INTEGER REFERENCES users(user_id),
+    reason         TEXT,
+    canceled_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ─────────────────────────────────────────
+-- ROOM WAITLIST (QUEUE) TABLE
+-- ─────────────────────────────────────────
+CREATE TABLE room_waitlist (
+    waitlist_id      SERIAL PRIMARY KEY,
+    user_id          INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    room_id          INTEGER NOT NULL REFERENCES rooms(room_id) ON DELETE CASCADE,
+    reservation_date DATE NOT NULL,
+    start_time       TIMESTAMP NOT NULL,
+    end_time         TIMESTAMP NOT NULL,
+    queue_position   INTEGER NOT NULL,
+    status           VARCHAR(20) DEFAULT 'waiting'
+                     CHECK (status IN ('waiting', 'notified', 'expired')),
+    created_at       TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_waitlist_room_slot
+    ON room_waitlist (room_id, reservation_date, start_time, end_time);
+
+-- =====================================================
+-- DONE — Login as admin@test.com / 123 to get started
+-- Students and staff register via the signup page
+-- =====================================================
 

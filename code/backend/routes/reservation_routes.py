@@ -6,7 +6,7 @@ from models.users import User
 from models.override_request import OverrideRequest
 from models.notification import Notification
 from models.watchlist import RoomWatchlist
-from models.waitlist import RoomWaitlist
+from models.waitlist import RoomWaitlistQueue as RoomWaitlist
 from datetime import datetime, timedelta
 
 reservation_bp = Blueprint("reservations", __name__)

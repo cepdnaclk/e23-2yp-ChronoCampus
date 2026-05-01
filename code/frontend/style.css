@@ -1,0 +1,331 @@
+/* ============================================================
+   ChronoCampus — style.css
+   Auth pages (login.html + signup.html) — dark navy theme
+   Matches base.css variables and design language
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Root variables (mirrors base.css) ─────────────────────── */
+:root {
+  --navy-900: #080d1a;
+  --navy-800: #0b1120;
+  --navy-700: #111d33;
+  --navy-600: #162240;
+  --blue-400: #2563eb;
+  --blue-300: #3b82f6;
+  --blue-200: #60a5fa;
+  --gold:     #c9a84c;
+  --gold-light: #e4c87a;
+  --white:    #f0f4ff;
+  --muted:    #8a9bbf;
+  --muted2:   #5a6a88;
+  --border:   rgba(37,99,235,0.18);
+  --glass:    rgba(13,21,38,0.75);
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'DM Sans', sans-serif;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+}
+
+/* ── Body & background ─────────────────────────────────────── */
+html, body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  background: var(--navy-900);
+  color: var(--white);
+  overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+/* Animated background gradient */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(37,99,235,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(201,168,76,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 60% 40%, rgba(37,99,235,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grid overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Auth card ─────────────────────────────────────────────── */
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 2.75rem 2.5rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 0 0 1px rgba(37,99,235,0.06) inset,
+    0 24px 64px rgba(0,0,0,0.5),
+    0 4px 16px rgba(37,99,235,0.08);
+  animation: fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Logo / heading ────────────────────────────────────────── */
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.35rem;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+
+/* Gold accent on "Campus" part — wraps the second word */
+h2::after {
+  content: "";
+}
+
+/* Subtitle under heading */
+.container > p.subtitle,
+.subtitle {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+/* Logo icon above heading */
+.logo-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--blue-400), var(--blue-300));
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 24px rgba(37,99,235,0.35);
+}
+
+/* ── Inputs ────────────────────────────────────────────────── */
+input, select {
+  width: 100%;
+  height: 48px;
+  padding: 0 1rem;
+  margin: 6px 0 14px;
+  background: rgba(13,21,38,0.8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input::placeholder { color: var(--muted2); }
+
+input:focus, select:focus {
+  border-color: var(--blue-400);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9bbf' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+select option { background: var(--navy-700); color: var(--white); }
+
+/* Label above input */
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+/* ── Button ────────────────────────────────────────────────── */
+button {
+  width: 100%;
+  height: 50px;
+  margin-top: 6px;
+  background: linear-gradient(135deg, var(--blue-400) 0%, #1d4fd8 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+  letter-spacing: 0.02em;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(37,99,235,0.45);
+}
+
+button:active:not(:disabled) { transform: translateY(0); }
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Messages ──────────────────────────────────────────────── */
+#message, #loginMessage {
+  text-align: center;
+  margin-top: 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  min-height: 1.2rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+}
+
+/* Error state */
+#message.error, #loginMessage.error {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5;
+}
+
+/* Success state */
+#message.success, #loginMessage.success {
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.25);
+  color: #86efac;
+}
+
+/* ── Footer link (Already have an account?) ─────────────────── */
+.link {
+  text-align: center;
+  margin-top: 1.4rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.link a {
+  color: var(--blue-200);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+
+.link a:hover {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+/* ── Divider line ──────────────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  color: var(--muted2);
+  font-size: 0.75rem;
+}
+
+.divider::before, .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .container { padding: 2rem 1.5rem; }
+  h2 { font-size: 1.5rem; }
+}
+
+button{
+width:100%;
+padding:10px;
+background:#0b3d91;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+transition:background 0.3s;
+}
+
+button:hover{
+background:#2a5db0;
+}
+
+.link{
+text-align:center;
+margin-top:15px;
+font-size:14px;
+}
+
+.link a{
+color:#0b3d91;
+text-decoration:none;
+font-weight:bold;
+}
+
+.link a:hover{
+text-decoration:underline;
+}
+
+#message{
+text-align:center;
+margin-top:10px;
+font-weight:bold;
+}
+
+#loginMessage{
+text-align:center;
+margin-top:10px;
+font-weight:bold;
+}
