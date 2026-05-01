@@ -1,9 +1,0 @@
-# Python
-__pycache__/
-*.pyc
-
-# Virtual environment
-code/backend/venv/
-
-# Environment variables
-code/backend/.env
