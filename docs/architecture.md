@@ -23,7 +23,7 @@ The module is responsible for:
 ┌──────────────────────────────────────────────────────────┐
 │                     Frontend (View)                      │
 │              HTML / CSS / JavaScript Pages               │
-│    index.html  |  login.html  |  signup.html             │
+│    landing.html  |  login.html  |  signup.html             │
 │    dark.css    |  script.js   |  dashboard.html          │
 └──────────────────────┬───────────────────────────────────┘
                        │ HTTP Requests (JSON via fetch API)
@@ -68,7 +68,7 @@ UserAuthenticationModule/
 │   │   ├── db.py        # PostgreSQL connection helper
 │   │   └── .env         # DB credentials (not committed)
 │   └── frontend/
-│       ├── index.html   # Landing page
+│       ├── landing.html   # Landing page
 │       ├── login.html   # Login page
 │       ├── signup.html  # Registration page
 │       ├── dashboard.html # Role-based redirect page

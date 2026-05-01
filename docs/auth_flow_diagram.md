@@ -208,7 +208,7 @@ Check session["role"] == "admin"?
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                   Frontend (Browser)                    │
-│  index.html → signup.html → login.html → dashboard.html │
+│landing.html → signup.html → login.html → dashboard.html │
 │                    script.js  +  dark.css               │
 └──────────────────────────┬──────────────────────────────┘
                            │ fetch (JSON) + credentials
