@@ -62,7 +62,7 @@ def get_db_connection():
 # Home Page
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("index.html")
 
 # =========================
 # API 01 - CURRENT STATUS
@@ -336,7 +336,7 @@ def room_availability():
 # ADMIN PAGE
 @app.route("/admin")
 def admin_page():
-    return render_template("admin.html")
+    return render_template("admin4.html")
 
 # MAIN API (Manage Users)
 @app.route("/api/manage_user", methods=["POST"])
@@ -451,6 +451,8 @@ def manage_user():
         conn.close()
 
 # ---------------- STAFF PROFILE ----------------
+
+
 @app.route("/staff/<int:staff_id>")
 def staff_profile(staff_id):
     return render_template("staff_profile.html", staff_id=staff_id)
@@ -499,6 +501,14 @@ def serve_images(filename):
         filename
     )
 
+@app.route("/home4")
+def home4():
+    return render_template("home.html")
+
+
+@app.route("/room")
+def room_page():
+    return render_template("index2.html")
 
 @app.route("/current")
 def current_page():
@@ -517,6 +527,31 @@ def availability_page():
     return render_template("availability.html")
 
 
+# LOGIN PAGE
+@app.route("/login")
+def login_page():
+    return render_template("login.html")
+
+# SIGNUP PAGE
+@app.route("/signup")
+def signup_page():
+    return render_template("signup.html")
+
+@app.route("/dashboard")
+def dashboard1():
+    return render_template("dashboard.html")
+
+@app.route("/booking")
+def booking1():
+    return render_template("booking.html")
+
+@app.route("/my_reservations")
+def my_reservation1():
+    return render_template("my_reservations.html")
+
+@app.route("/admin")
+def admin1():
+    return render_template("admin.html")
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

@@ -167,7 +167,7 @@ if (signupForm) {
       }
 
       setMessage("message", result.message || "Account created! Redirecting…", "success");
-      setTimeout(() => window.location.href = "login.html", 1500);
+      setTimeout(() => window.location.href = "/login", 1500);
 
     } catch {
       setMessage("message", "Cannot connect to server. Is Flask running?", "error");
@@ -218,7 +218,7 @@ if (loginForm) {
       setMessage("loginMessage", "Login successful! Redirecting…", "success");
 
       // ── Go to dashboard.html — it redirects by role ────────
-      setTimeout(() => window.location.href = "dashboard.html", 800);
+      setTimeout(() => window.location.href = "/dashboard", 800);
 
     } catch {
       setMessage("loginMessage", "Cannot connect to server. Is Flask running?", "error");

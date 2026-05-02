@@ -84,7 +84,7 @@ function filterUsers(){
 /* -------- BACK BUTTON -------- */
 
 function goBack(){
-    window.location.href = "/";
+    window.location.href = "/home4";
 }
 
 function openProfile(id){

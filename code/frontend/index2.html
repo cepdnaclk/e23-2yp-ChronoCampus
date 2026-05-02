@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ChronoCampus</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        ChronoCampus Room Management
+    </header>
+
+    <div class="container">
+
+        <div class="nav">
+        
+            <div class="tooltip">
+                <button onclick="goTo('/current')">
+                    Real Time Status
+                </button>
+                <span class="tooltiptext">
+                    Shows which rooms are currently free or occupied
+                </span>
+            </div>
+        
+            <div class="tooltip">
+                <button onclick="goTo('/schedule')">
+                    Daily Schedule
+                </button>
+                <span class="tooltiptext">
+                    Displays all room bookings for the selected date
+                </span>
+            </div>
+        
+            <div class="tooltip">
+                <button onclick="goTo('/search')">
+                    Search Room
+                </button>
+                <span class="tooltiptext">
+                    Search a room by name and view reservations
+                </span>
+            </div>
+        
+            <div class="tooltip">
+                <button onclick="goTo('/availability')">
+                    Availability Checker
+                </button>
+                <span class="tooltiptext">
+                    Shows available time slots for a specific room
+                </span>
+            </div>
+        
+        </div>
+
+    </div>
+
+    <script>
+        function goTo(page) {
+            window.location.href = page;
+        }
+    </script>
+
+</body>
+
+</html>
