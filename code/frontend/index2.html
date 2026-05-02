@@ -1,67 +1,167 @@
 <!DOCTYPE html>
+
 <html>
 
+
+
 <head>
+
     <title>ChronoCampus</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style4.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='room.css') }}">
 </head>
 
-<body>
 
-    <header>
-        ChronoCampus Room Management
+
+<body>
+<div class="bg-layer"></div>
+<div class="grid-overlay"></div>
+<div class="page-wrap">
+  <!-- ── Navbar ─────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-icon">🏛️</div>
+      <div>
+        <div class="logo-text">Chrono<span>Campus</span></div>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/room" class="active">Room Availability</a></li>
+      <li><a href="/booking">Book a Room</a></li>
+      <li><a href="/my_reservations">My Reservations</a></li>
+      <li><a href="/directory">User Directory</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="notif-bell" id="notifBell" title="Notifications">
+        🔔<span class="notif-dot" id="notifDot"></span>
+      </button>
+      <div class="nav-user">
+        <span id="navUserName">—</span>
+        <div class="avatar" id="navAvatar">—</div>
+        <button class="logout-btn" onclick="Auth.logout()">Logout</button>
+      </div>
+    </div>
+    </nav>
+
+
+    <main class="main-content">
+
+    <header class="page-header">
+    ChronoCampus Room Management
     </header>
+
+
 
     <div class="container">
 
+
+
         <div class="nav">
+
         
+
             <div class="tooltip">
+
                 <button onclick="goTo('/current')">
+
                     Real Time Status
+
                 </button>
+
                 <span class="tooltiptext">
+
                     Shows which rooms are currently free or occupied
+
                 </span>
+
             </div>
+
         
+
             <div class="tooltip">
+
                 <button onclick="goTo('/schedule')">
+
                     Daily Schedule
+
                 </button>
+
                 <span class="tooltiptext">
+
                     Displays all room bookings for the selected date
+
                 </span>
+
             </div>
+
         
+
             <div class="tooltip">
+
                 <button onclick="goTo('/search')">
+
                     Search Room
+
                 </button>
+
                 <span class="tooltiptext">
+
                     Search a room by name and view reservations
+
                 </span>
+
             </div>
+
         
+
             <div class="tooltip">
+
                 <button onclick="goTo('/availability')">
+
                     Availability Checker
+
                 </button>
+
                 <span class="tooltiptext">
+
                     Shows available time slots for a specific room
+
                 </span>
+
             </div>
+
         
+
         </div>
+        </div>
+        </main>
+
+
 
     </div>
 
+
+    <script src="{{ url_for('static', filename='script4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
     <script>
+
         function goTo(page) {
+
             window.location.href = page;
+
         }
+
     </script>
 
+
+
 </body>
+
+
 
 </html>

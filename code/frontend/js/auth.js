@@ -92,7 +92,7 @@ const Auth = (() => {
   /* ── Logout ───────────────────────────────────────────────── */
   function logout() {
     sessionStorage.clear();
-    window.location.href = "login.html";
+    window.location.href = "/login";
   }
 
   /* ── Populate nav user UI ─────────────────────────────────── */
@@ -139,3 +139,8 @@ const Auth = (() => {
     populateAdminProfile,
   };
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+  Auth.restoreFromUrl();
+  Auth.populateNav();
+});

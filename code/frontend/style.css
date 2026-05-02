@@ -125,6 +125,32 @@ button.action:hover {
   font-weight: 600;
 }
 
+.main-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.page-header {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #e5e7eb;
+}
+.main-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.page-header {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #e5e7eb;
+}
+
+
 /* BACK BUTTON */
 .back {
   margin-top: 20px;
