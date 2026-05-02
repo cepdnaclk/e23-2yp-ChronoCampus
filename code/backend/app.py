@@ -333,10 +333,7 @@ def room_availability():
     })
 
 
-# ADMIN PAGE
-@app.route("/admin")
-def admin_page():
-    return render_template("admin4.html")
+
 
 # MAIN API (Manage Users)
 @app.route("/api/manage_user", methods=["POST"])
@@ -553,6 +550,9 @@ def my_reservation1():
 def admin1():
     return render_template("admin.html")
 
+@app.route("/admin")
+def admin_page():
+    return render_template("admin4.html")
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
