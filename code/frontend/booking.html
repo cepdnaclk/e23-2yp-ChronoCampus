@@ -4,13 +4,11 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ChronoCampus — Book a Room</title>
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/booking.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/datepicker.css') }}">
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/booking.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/datepicker.css') }}"/>
 </head>
 <body>
 <div class="bg-layer"></div>
@@ -26,8 +24,10 @@
       </div>
     </div>
     <ul class="nav-links">
+      <li><a href="/room">Room Availability</a></li>
       <li><a href="/booking" class="active">Book a Room</a></li>
       <li><a href="/my_reservations">My Reservations</a></li>
+      <li><a href="/directory">User Directory</a></li>
     </ul>
     <div class="nav-right">
       <button class="notif-bell" id="notifBell" title="Notifications">
@@ -260,13 +260,10 @@
 <div class="toast" id="toast"></div>
 
 <!-- ── Scripts ─────────────────────────────────────────────────── -->
-
-
 <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 <script src="{{ url_for('static', filename='js/api.js') }}"></script>
 <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
 <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
 <script src="{{ url_for('static', filename='js/booking.js') }}"></script>
-
 </body>
 </html>

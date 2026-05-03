@@ -50,15 +50,15 @@ const Auth = (() => {
     const role = getRole();
     if (!role) {
       // No session at all — go to login
-      window.location.href = "login.html";
+      window.location.href = "/login";
       return;
     }
     if (!allowedRoles.includes(role)) {
       // Wrong role — send to the right place instead of login
       if (role === "admin") {
-        window.location.href = "admin.html";
+        window.location.href = "/admin";
       } else {
-        window.location.href = "booking.html";
+        window.location.href = "/booking";
       }
     }
   }
@@ -68,8 +68,8 @@ const Auth = (() => {
   // If no session → go to login.html
   function requireStudent() {
     const role = getRole();
-    if (!role) { window.location.href = "login.html"; return; }
-    if (role === "admin") { window.location.href = "admin.html"; return; }
+    if (!role) { window.location.href = "/login"; return; }
+    if (role === "admin") { window.location.href = "/admin"; return; }
     // student or staff — fine, stay
   }
 
@@ -78,8 +78,8 @@ const Auth = (() => {
   // If no session → go to login.html
   function requireAdmin() {
     const role = getRole();
-    if (!role) { window.location.href = "login.html"; return; }
-    if (role !== "admin") { window.location.href = "booking.html"; return; }
+    if (!role) { window.location.href = "/login"; return; }
+    if (role !== "admin") { window.location.href = "/booking"; return; }
     // admin — fine, stay
   }
 
@@ -92,7 +92,7 @@ const Auth = (() => {
   /* ── Logout ───────────────────────────────────────────────── */
   function logout() {
     sessionStorage.clear();
-    window.location.href = "login.html";
+    window.location.href = "/";
   }
 
   /* ── Populate nav user UI ─────────────────────────────────── */

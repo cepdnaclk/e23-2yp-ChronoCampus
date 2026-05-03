@@ -5,34 +5,86 @@
 
     <title>User Directory</title>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style4.css') }}">
-
 </head>
 
 <body>
 
-    
+    <div class="bg-layer"></div>
+    <div class="grid-overlay"></div>
+    <div class="page-wrap">
+        <!-- ── Navbar ─────────────────────────────────────────────── -->
+        <nav>
+            <div class="nav-logo">
+                <div class="logo-icon">🏛️</div>
+                <div>
+                    <div class="logo-text">Chrono<span>Campus</span></div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/room">Room Availability</a></li>
+                <li><a href="/booking">Book a Room</a></li>
+                <li><a href="/my_reservations">My Reservations</a></li>
+                <li><a href="/directory" class="active">User Directory</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="notif-bell" id="notifBell" title="Notifications">
+                    🔔<span class="notif-dot" id="notifDot"></span>
+                </button>
+                <div class="nav-user">
+                    <span id="navUserName">—</span>
+                    <div class="avatar" id="navAvatar">—</div>
+                    <button class="logout-btn" onclick="Auth.logout()">Logout</button>
+                </div>
+            </div>
+        </nav>
 
-    <h2>User Directory</h2>
-    
-    <div class="top-controls">
+        <!-- ── Notification panel ─────────────────────────────────── 
+    -->
+        <div class="notif-panel" id="notifPanel">
+            <div class="notif-panel-header">
+                <span class="notif-panel-title">🔔 Notifications</span>
+                <button class="notif-mark-all" onclick="Notifications.
+    markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-list" id="notifList">
+                <div class="notif-empty">Loading…</div>
+            </div>
+        </div>
 
-    <button onclick="goBack()" class="back-btn">⬅ Back</button>
 
-    <select id="roleFilter">
-        <option value="all">All</option>
-        <option value="staff">Staff</option>
-        <option value="student">Students</option>
-        <option value="admin">Admin</option>
-    </select>
+        <h2>User Directory</h2>
 
-    <input type="text" id="searchInput" placeholder="Search user...">
+        <div class="top-controls">
 
-</div>
+            <button onclick="goBack()" class="back-btn">⬅ Back</button>
 
-    <div id="staffContainer"></div>
+            <select id="roleFilter">
+                <option value="all">All</option>
+                <option value="staff">Staff</option>
+                <option value="student">Students</option>
+                <option value="admin">Admin</option>
+            </select>
 
-    <script src="{{ url_for('static', filename='script4.js') }}"></script>
+            <input type="text" id="searchInput" placeholder="Search user...">
+
+        </div>
+
+        <div id="staffContainer"></div>
+
+        <script src="{{ url_for('static', filename='script4.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+
+        <script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+
+        <script src="{{ url_for('static', filename='js/api.
+    js') }}"></script>
+        <script src="{{ url_for('static', filename='js/datepicker.
+    js') }}"></script>
 
 </body>
 

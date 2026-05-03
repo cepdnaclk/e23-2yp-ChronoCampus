@@ -225,23 +225,20 @@ def get_users():
 
     conn = get_db_connection()
     cur = conn.cursor()
-
-
+    
     cur.execute("""
     SELECT 
-        COALESCE(f.user_id, u.user_id) AS user_id,
-        COALESCE(f.username, u.full_name) AS username,
-        COALESCE(f.role, u.role) AS role,
-        f.department,
-        f.office_location,
-        f.profile_image,
+        u.user_id,
+        u.full_name AS username,
+        u.role,
+        COALESCE(f.department, '') AS department,
+        COALESCE(f.office_location, '') AS location,
+        COALESCE(f.profile_image, NULL) AS image,
         u.email
     FROM users u
     LEFT JOIN find_users f ON u.user_id = f.user_id
 
-
-    UNION
-
+    UNION ALL
 
     SELECT 
         f.user_id,
@@ -250,9 +247,11 @@ def get_users():
         f.department,
         f.office_location,
         f.profile_image,
-        NULL as email
+        NULL AS email
     FROM find_users f
-    WHERE f.user_id NOT IN (SELECT user_id FROM users)
+    WHERE NOT EXISTS (
+        SELECT 1 FROM users u WHERE u.user_id = f.user_id
+    );
     """)
 
 
@@ -336,7 +335,7 @@ def room_availability():
 # ADMIN PAGE
 @app.route("/admin")
 def admin_page():
-    return render_template("admin4.html")
+    return render_template("admin.html")
 
 # MAIN API (Manage Users)
 @app.route("/api/manage_user", methods=["POST"])
@@ -392,7 +391,8 @@ def manage_user():
             user = cur.fetchone()
 
             if not user:
-                return jsonify({"message": "User not found in users table"}), 404
+                cur.execute("SELECT user_id FROM find_users WHERE username=%s", (username,))
+                user = cur.fetchone()
 
             user_id = user[0]
 
@@ -552,6 +552,10 @@ def my_reservation1():
 @app.route("/admin")
 def admin1():
     return render_template("admin.html")
+
+@app.route("/admin4")
+def admin4():
+    return render_template("admin4.html")
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

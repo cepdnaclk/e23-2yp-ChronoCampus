@@ -1,7 +1,7 @@
 let userList = [];
 
 function goBack() {
-    window.location.href = "/home4";
+    window.location.href = "/admin";
 }
 
 /* ---------- ADD USER ---------- */
