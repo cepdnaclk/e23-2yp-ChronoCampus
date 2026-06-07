@@ -171,7 +171,21 @@ DB_PASSWORD=your_postgres_password
 
 ### 5. Run Backend Server
 
-python app.py  
+1. Open terminal in the project folder and to create a venv write this command:
+
+python -m venv .venv
+
+2. Activation command:
+
+.venv\Scripts\activate
+
+3. Commands to install all packages:
+
+pip install flask flask-cors flask-sqlalchemy psycopg2-binary bcrypt python-dotenv
+
+6. To Run Flask:
+
+python app.py
 
 Expected output:
 
@@ -179,7 +193,7 @@ Running on http://127.0.0.1:5000/
 
 ---
 
-### 6. Run Frontend
+### 6. Run Frontend or Click that link in output
 ### That's All.
 
 # Contribution's-ChronoCampus – Room Visibility and Availability Module  
