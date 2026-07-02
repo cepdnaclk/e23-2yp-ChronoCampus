@@ -31,8 +31,7 @@ Sara_UserAuthenticationModule/
 ├── docs/
 |   ├── architecture.md # High-level MVC architecture overview
 |   ├── api_design.md # REST API structure for authentication
-|   ├── setup_guide.md # Local development setup instructions
-|   └── auth_flow_diagram.md # Authentication workflow explanation
+|   └──auth_flow_diagram.md # Authentication workflow explanation 
 ├── database/
 │   └── schema.sql
 ├── .gitignore
