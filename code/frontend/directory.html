@@ -16,6 +16,7 @@
     <div class="bg-layer"></div>
     <div class="grid-overlay"></div>
     <div class="page-wrap">
+
         <!-- ── Navbar ─────────────────────────────────────────────── -->
         <nav>
             <div class="nav-logo">
@@ -47,8 +48,7 @@
         <div class="notif-panel" id="notifPanel">
             <div class="notif-panel-header">
                 <span class="notif-panel-title">🔔 Notifications</span>
-                <button class="notif-mark-all" onclick="Notifications.
-    markAllRead()">Mark all read</button>
+                <button class="notif-mark-all" onclick="Notifications.markAllRead()">Mark all read</button>
             </div>
             <div class="notif-list" id="notifList">
                 <div class="notif-empty">Loading…</div>
@@ -59,8 +59,6 @@
         <h2>User Directory</h2>
 
         <div class="top-controls">
-
-            <button onclick="goBack()" class="back-btn">⬅ Back</button>
 
             <select id="roleFilter">
                 <option value="all">All</option>
@@ -81,10 +79,8 @@
 
         <script src="{{ url_for('static', filename='js/booking.js') }}"></script>
 
-        <script src="{{ url_for('static', filename='js/api.
-    js') }}"></script>
-        <script src="{{ url_for('static', filename='js/datepicker.
-    js') }}"></script>
+        <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
 
 </body>
 

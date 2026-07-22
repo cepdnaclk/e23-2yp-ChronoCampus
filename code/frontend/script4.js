@@ -1,3 +1,4 @@
+//Its purpose is to temporarily store all users received from the backend.
 let userList = [];
 
 /* -------- FETCH USERS FROM FLASK API -------- */
@@ -22,6 +23,7 @@ function displayUsers(users){
 
     if(!container) return;
 
+    //This clears previous results.
     container.innerHTML = "";
 
     users.forEach(u => {
@@ -81,11 +83,6 @@ function filterUsers(){
 
 }
 
-/* -------- BACK BUTTON -------- */
-
-function goBack(){
-    window.location.href = "/home4";
-}
 
 function openProfile(id){
     window.location.href = "/staff/" + id;

@@ -1,91 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>Add New User</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style4.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style4.css') }}"
+    />
+  </head>
+  <body>
+    <h2>Add New User</h2>
 
-<h2>Add New User</h2>
-
-<form id="addForm" class="form-container">
-
-    <div class="form-group">
+    <form id="addForm" class="form-container">
+      <div class="form-group">
         <label>Name</label>
-        <input type="text" id="username" required>
-    </div>
+        <input type="text" id="username" required />
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>Email</label>
-        <input type="email" id="email" required>
-    </div>
+        <input type="email" id="email" required />
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>Role</label>
         <select id="role">
-            <option value="staff">Staff</option>
-            <option value="student">Student</option>
-            <option value="admin">Admin</option>
+          <option value="staff">Staff</option>
+          <option value="student">Student</option>
+          <option value="admin">Admin</option>
         </select>
-    </div>
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>Department</label>
-        <input type="text" id="department">
-    </div>
+        <input type="text" id="department" />
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>Office Location</label>
-        <input type="text" id="location">
-    </div>
+        <input type="text" id="location" />
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>Profile Image</label>
-        <input type="file" id="image">
-    </div>
+        <input type="file" id="image" />
+      </div>
 
-    <div class="form-buttons">
+      <div class="form-buttons">
         <button type="button" onclick="addUser()">Add User</button>
         <button type="button" onclick="goBack()">Cancel</button>
-    </div>
+      </div>
+    </form>
 
-</form>
+    <script>
+      function addUser() {
+        const formData = new FormData();
 
-<script>
+        formData.append("username", document.getElementById("username").value);
+        formData.append("email", document.getElementById("email").value);
+        formData.append("role", document.getElementById("role").value);
+        formData.append(
+          "department",
+          document.getElementById("department").value,
+        );
+        formData.append("location", document.getElementById("location").value);
+        formData.append("action", "add");
 
-function addUser(){
+        const fileInput = document.getElementById("image");
 
-    const formData = new FormData();
+        if (fileInput.files.length > 0) {
+          formData.append("image", fileInput.files[0]);
+        }
 
-    formData.append("username", document.getElementById("username").value);
-    formData.append("email", document.getElementById("email").value);
-    formData.append("role", document.getElementById("role").value);
-    formData.append("department", document.getElementById("department").value);
-    formData.append("location", document.getElementById("location").value);
-    formData.append("action", "add");
+        fetch("/api/manage_user", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            alert("User added successfully");
+            window.location.href = "/admin4";
+          });
+      }
 
-    const fileInput = document.getElementById("image");
-
-    if(fileInput.files.length > 0){
-        formData.append("image", fileInput.files[0]);
-    }
-
-    fetch("/api/manage_user", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert("User added successfully");
-        window.location.href = "/admin";
-    });
-}
-
-function goBack(){
-    window.location.href = "/admin";
-}
-
-</script>
-
-</body>
+      function goBack() {
+        window.location.href = "/admin4";
+      }
+    </script>
+  </body>
 </html>
